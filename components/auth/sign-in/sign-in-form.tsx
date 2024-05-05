@@ -22,8 +22,11 @@ import { Input } from "@/components/ui/input";
 import { signInSchema } from "@/lib/types/schemas";
 import { SignInSchemaType } from "@/lib/types";
 import { cn, isEmpty, toggleShowPassword } from "@/lib/utils";
+import { signIn } from "@/lib/actions/auth";
+import { useRouter } from "next/navigation";
 
 export default function SignInForm() {
+  const router = useRouter();
   const { showPassword, showPasswordHandler } = toggleShowPassword();
 
   const form = useForm<SignInSchemaType>({
@@ -36,13 +39,18 @@ export default function SignInForm() {
 
   const onSubmit = async (data: SignInSchemaType) => {
     console.log(data);
-    // signIn(data)
-    form.reset();
-  };
 
-  if (form.formState.isSubmitSuccessful) {
-    toast.success("Login successful");
-  }
+    const { error } = await signIn(data);
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success("Login successful");
+      form.reset();
+
+      router.push("/");
+    }
+  };
 
   return (
     <>

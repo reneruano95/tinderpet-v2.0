@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,8 +23,10 @@ import { cn, isEmpty, toggleShowPassword } from "@/lib/utils";
 import { signUpSchema } from "@/lib/types/schemas";
 import { SignUpSchemaType } from "@/lib/types";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { signUp } from "@/lib/actions/auth";
 
 export default function SignUpForm() {
+  const router = useRouter();
   const { showPassword, showPasswordHandler } = toggleShowPassword();
 
   const form = useForm<SignUpSchemaType>({
@@ -36,14 +39,19 @@ export default function SignUpForm() {
     },
   });
 
-  if (form.formState.isSubmitSuccessful) {
-    toast.success("Sign up successful");
-  }
-
   const onSubmit = async (data: SignUpSchemaType) => {
-    console.log(data);
-    // signUp(data)
-    form.reset();
+    // console.log(data);
+
+    const { error } = await signUp(data);
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success("Sign up successful");
+      form.reset();
+
+      router.push("/");
+    }
   };
 
   return (
