@@ -13,7 +13,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
   FormDescription,
 } from "@/components/ui/form";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -47,7 +46,7 @@ export default function SignInForm() {
 
   return (
     <>
-      <div className="mx-auto max-w-sm">
+      <div className="mx-auto flex flex-col">
         <div className="flex flex-col space-y-1.5 p-6">
           <h1 className="text-2xl font-semibold leading-none tracking-tight">
             Login
@@ -144,24 +143,26 @@ export default function SignInForm() {
         </Form>
       </div>
 
-      <div
-        className={cn(
-          "hidden p-6 pt-0  ",
-          form.formState.isSubmitSuccessful && "hidden",
-          "alert alert-error",
-          !isEmpty(form.formState.errors) && "block"
-        )}
-      >
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>
-            {Object.values(form.formState.errors).map((error) => (
-              <p key={error.message}>{error.message}</p>
-            ))}
-            <p>Please try again</p>
-          </AlertDescription>
-        </Alert>
+      {/* Error message*/}
+      <div className="mx-auto flex flex-col">
+        <div
+          className={cn(
+            "hidden p-6 pt-0",
+            form.formState.isSubmitSuccessful && "hidden",
+            !isEmpty(form.formState.errors) && "block"
+          )}
+        >
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>
+              {Object.values(form.formState.errors).map((error) => (
+                <p key={error.message}>{error.message}</p>
+              ))}
+              <p>Please try again</p>
+            </AlertDescription>
+          </Alert>
+        </div>
       </div>
     </>
   );
