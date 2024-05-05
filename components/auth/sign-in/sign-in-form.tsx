@@ -6,12 +6,6 @@ import { Eye, EyeOff } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
-import { signInSchema } from "@/lib/types/schemas";
-import { SignInSchemaType } from "@/lib/types";
-import { toggleShowPassword } from "@/lib/utils";
 import {
   Form,
   FormControl,
@@ -21,6 +15,12 @@ import {
   FormMessage,
   FormDescription,
 } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+import { signInSchema } from "@/lib/types/schemas";
+import { SignInSchemaType } from "@/lib/types";
+import { toggleShowPassword } from "@/lib/utils";
 
 export default function SignInForm() {
   const { showPassword, showPasswordHandler } = toggleShowPassword();
@@ -98,14 +98,17 @@ export default function SignInForm() {
                         type={showPassword ? "text" : "password"}
                       />
                       <Button
+                        asChild
                         onClick={() => showPasswordHandler()}
                         className="text-muted-foreground p-0 h-10 w-10 m-0 rounded-s-none bg-transparent hover:bg-muted border border-input border-s-0"
                       >
-                        {showPassword ? (
-                          <EyeOff className="h-5 w-5 m-0" />
-                        ) : (
-                          <Eye className="h-5 w-5 m-0" />
-                        )}
+                        <div>
+                          {showPassword ? (
+                            <EyeOff className="h-5 w-5 m-0" />
+                          ) : (
+                            <Eye className="h-5 w-5 m-0" />
+                          )}
+                        </div>
                       </Button>
                     </div>
                   </FormControl>

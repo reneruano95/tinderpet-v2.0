@@ -9,7 +9,10 @@ export function cn(...inputs: ClassValue[]) {
 export function toggleShowPassword() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const showPasswordHandler = () => setShowPassword(!showPassword);
+  const showPasswordHandler = (event?: React.MouseEvent<HTMLButtonElement>) => {
+    event?.preventDefault();
+    setShowPassword(!showPassword);
+  };
 
   return { showPassword, showPasswordHandler };
 }
