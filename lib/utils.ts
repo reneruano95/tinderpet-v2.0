@@ -26,3 +26,10 @@ export function toggleShowConfirmPassword() {
 
   return { showConfirmPassword, showConfirmPasswordHandler };
 }
+
+export function isEmpty(obj: { [key: string]: any }) {
+  for (let i in obj) {
+    return false;
+  }
+  return true;
+}
