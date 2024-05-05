@@ -159,7 +159,7 @@ export default function SignUpForm() {
               <Button type="submit" className="w-full">
                 Create an account
               </Button>
-              <Button variant="outline" className="w-full">
+              <Button variant="outline" type="button" className="w-full">
                 Sign up with Google
               </Button>
             </div>
@@ -189,7 +189,6 @@ export default function SignUpForm() {
               {Object.values(form.formState.errors).map((error) => (
                 <p key={error.message}>{error.message}</p>
               ))}
-              <p>Please try again</p>
             </AlertDescription>
           </Alert>
         </div>
