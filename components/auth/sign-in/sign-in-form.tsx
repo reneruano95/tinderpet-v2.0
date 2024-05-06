@@ -38,7 +38,7 @@ export default function SignInForm() {
   });
 
   const onSubmit = async (data: SignInSchemaType) => {
-    console.log(data);
+    // console.log(data);
 
     const { error } = await signIn(data);
 

@@ -1,6 +1,10 @@
 "use server";
 
-import { AuthResponse, AuthTokenResponsePassword } from "@supabase/supabase-js";
+import {
+  AuthResponse,
+  AuthTokenResponsePassword,
+  UserResponse,
+} from "@supabase/supabase-js";
 import { createClient } from "../supabase/server";
 import { SignInSchemaType, SignUpSchemaType } from "../types";
 
@@ -61,6 +65,19 @@ export async function getSession() {
   return null;
 }
 
-export async function getUser() {
-  return null;
+export async function getUser(): Promise<UserResponse> {
+  const supabase = createClient();
+
+  if (!supabase) {
+    throw new Error("Supabase client not initialized");
+  }
+
+  let result;
+  try {
+    result = await supabase.auth.getUser();
+  } catch (error) {
+    throw error;
+  }
+
+  return result;
 }
