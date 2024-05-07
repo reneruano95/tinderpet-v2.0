@@ -27,7 +27,7 @@ export async function signIn(
       password,
     });
   } catch (error: AuthError | any) {
-    throw new Error(`Error:  ${error.message}`);
+    throw new Error(`Error signing in:  ${error}`);
   }
 
   return JSON.parse(JSON.stringify(result));
@@ -53,11 +53,11 @@ export async function signUp(data: SignUpSchemaType): Promise<AuthResponse> {
         },
       },
     });
-  } catch (error: any) {
-    throw error;
+  } catch (error: AuthError | any) {
+    throw new Error(`Error signing up :  ${error.message}`);
   }
 
-  return result;
+  return JSON.parse(JSON.stringify(result));
 }
 
 export async function signOut(): Promise<AuthError | null> {
@@ -71,10 +71,12 @@ export async function signOut(): Promise<AuthError | null> {
   try {
     result = await supabase.auth.signOut();
   } catch (error: AuthError | any) {
-    throw new Error(`Error:  ${error.message}`);
+    throw new Error(`Error signing out :  ${error}`);
   }
+
   let { error } = result;
-  return error;
+
+  return JSON.parse(JSON.stringify(error));
 }
 
 export async function getSession(): Promise<any> {
@@ -88,9 +90,9 @@ export async function getSession(): Promise<any> {
   try {
     result = await supabase.auth.getSession();
   } catch (error) {
-    throw error;
+    throw new Error(`Error getting session :  ${error}`);
   }
-  return result;
+  return JSON.parse(JSON.stringify(result));
 }
 
 export async function getUser(): Promise<UserResponse> {
@@ -103,9 +105,9 @@ export async function getUser(): Promise<UserResponse> {
   let result;
   try {
     result = await supabase.auth.getUser();
-  } catch (error) {
-    throw error;
+  } catch (error: AuthError | any) {
+    throw new Error(`Error getting user :  ${error}`);
   }
 
-  return result;
+  return JSON.parse(JSON.stringify(result));
 }
