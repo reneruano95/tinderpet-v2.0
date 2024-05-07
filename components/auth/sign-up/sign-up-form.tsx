@@ -19,7 +19,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-import { cn, isEmpty, toggleShowPassword } from "@/lib/utils";
+import { cn, isEmpty } from "@/lib/utils";
+import { toggleShowPassword } from "../toggle-show-password";
 import { signUpSchema } from "@/lib/types/schemas";
 import { SignUpSchemaType } from "@/lib/types";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -50,7 +51,7 @@ export default function SignUpForm() {
       toast.success("Sign up successful");
       form.reset();
 
-      router.push("/");
+      router.push("/home");
     }
   };
 

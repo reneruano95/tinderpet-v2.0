@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { AlertCircle, Eye, EyeOff } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -21,9 +22,9 @@ import { Input } from "@/components/ui/input";
 
 import { signInSchema } from "@/lib/types/schemas";
 import { SignInSchemaType } from "@/lib/types";
-import { cn, isEmpty, toggleShowPassword } from "@/lib/utils";
+import { cn, isEmpty } from "@/lib/utils";
+import { toggleShowPassword } from "../toggle-show-password";
 import { signIn } from "@/lib/actions/auth";
-import { useRouter } from "next/navigation";
 
 export default function SignInForm() {
   const router = useRouter();
@@ -48,7 +49,7 @@ export default function SignInForm() {
       toast.success("Login successful");
       form.reset();
 
-      router.push("/");
+      router.push("/home");
     }
   };
 

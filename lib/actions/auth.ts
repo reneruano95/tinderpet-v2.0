@@ -1,12 +1,14 @@
 "use server";
 
 import {
+  AuthError,
   AuthResponse,
   AuthTokenResponsePassword,
   UserResponse,
 } from "@supabase/supabase-js";
 import { createClient } from "../supabase/server";
 import { SignInSchemaType, SignUpSchemaType } from "../types";
+import { error } from "console";
 
 export async function signIn(
   data: SignInSchemaType
@@ -57,12 +59,37 @@ export async function signUp(data: SignUpSchemaType): Promise<AuthResponse> {
   return result;
 }
 
-export async function signOut() {
-  return null;
+export async function signOut(): Promise<AuthError | null> {
+  const supabase = createClient();
+
+  if (!supabase) {
+    throw new Error("Supabase client not initialized");
+  }
+
+  let result;
+  try {
+    result = await supabase.auth.signOut();
+  } catch (error: any) {
+    throw error;
+  }
+  let { error } = result;
+  return error;
 }
 
-export async function getSession() {
-  return null;
+export async function getSession(): Promise<any> {
+  const supabase = createClient();
+
+  if (!supabase) {
+    throw new Error("Supabase client not initialized");
+  }
+
+  let result;
+  try {
+    result = await supabase.auth.getSession();
+  } catch (error) {
+    throw error;
+  }
+  return result;
 }
 
 export async function getUser(): Promise<UserResponse> {

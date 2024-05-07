@@ -1,20 +1,20 @@
 import { redirect } from "next/navigation";
-import { getUser } from "@/lib/actions/auth";
+import { getSession, getUser } from "@/lib/actions/auth";
+import { revalidatePath } from "next/cache";
 
 export default async function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { data: user, error } = await getUser();
+  const {
+    data: { user },
+    error,
+  } = await getUser();
 
   if (user) {
-    return redirect("/home");
+    revalidatePath("/home");
+    redirect("/home");
   }
-
-  if (error || !user) {
-    redirect("/sign-in");
-  }
-
   return <>{children}</>;
 }
