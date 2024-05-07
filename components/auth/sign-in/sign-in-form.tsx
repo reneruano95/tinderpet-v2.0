@@ -25,6 +25,7 @@ import { SignInSchemaType } from "@/lib/types";
 import { cn, isEmpty } from "@/lib/utils";
 import { toggleShowPassword } from "../toggle-show-password";
 import { signIn } from "@/lib/actions/auth";
+import { ToastError } from "@/components/toast-error";
 
 export default function SignInForm() {
   const router = useRouter();
@@ -41,10 +42,12 @@ export default function SignInForm() {
   const onSubmit = async (data: SignInSchemaType) => {
     // console.log(data);
 
-    const { error } = await signIn(data);
+    const { error: authError } = await signIn(data);
 
-    if (error) {
-      toast.error(error.message);
+    if (authError) {
+      toast.error(<ToastError error={authError} />, {
+        duration: 3000,
+      });
     } else {
       toast.success("Login successful");
       form.reset();
@@ -153,7 +156,7 @@ export default function SignInForm() {
       </div>
 
       {/* Error message*/}
-      <div className="mx-auto max-w-sm flex flex-col ">
+      <div className="mx-auto w-full max-w-sm flex flex-col ">
         <div
           className={cn(
             "hidden",

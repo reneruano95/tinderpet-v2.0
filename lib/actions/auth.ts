@@ -19,17 +19,18 @@ export async function signIn(
   if (!supabase) {
     throw new Error("Supabase client not initialized");
   }
+
   let result;
   try {
     result = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-  } catch (error: any) {
-    throw error;
+  } catch (error: AuthError | any) {
+    throw new Error(`Error:  ${error.message}`);
   }
 
-  return result;
+  return JSON.parse(JSON.stringify(result));
 }
 
 export async function signUp(data: SignUpSchemaType): Promise<AuthResponse> {
@@ -69,8 +70,8 @@ export async function signOut(): Promise<AuthError | null> {
   let result;
   try {
     result = await supabase.auth.signOut();
-  } catch (error: any) {
-    throw error;
+  } catch (error: AuthError | any) {
+    throw new Error(`Error:  ${error.message}`);
   }
   let { error } = result;
   return error;
