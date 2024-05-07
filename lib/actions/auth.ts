@@ -6,9 +6,9 @@ import {
   AuthTokenResponsePassword,
   UserResponse,
 } from "@supabase/supabase-js";
+
 import { createClient } from "../supabase/server";
 import { SignInSchemaType, SignUpSchemaType } from "../types";
-import { error } from "console";
 
 export async function signIn(
   data: SignInSchemaType

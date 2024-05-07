@@ -55,7 +55,7 @@ export default function SignInForm() {
 
   return (
     <>
-      <div className="mx-auto flex flex-col">
+      <div className="mx-auto max-w-sm flex flex-col">
         <div className="flex flex-col space-y-1.5 p-6">
           <h1 className="text-2xl font-semibold leading-none tracking-tight">
             Login
@@ -153,12 +153,12 @@ export default function SignInForm() {
       </div>
 
       {/* Error message*/}
-      <div className="mx-auto flex flex-col">
+      <div className="mx-auto max-w-sm flex flex-col ">
         <div
           className={cn(
-            "hidden p-6 pt-0",
+            "hidden",
             form.formState.isSubmitSuccessful && "hidden",
-            !isEmpty(form.formState.errors) && "block"
+            !isEmpty(form.formState.errors) && "px-6 block"
           )}
         >
           <Alert variant="destructive">

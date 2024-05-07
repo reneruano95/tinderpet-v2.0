@@ -186,12 +186,12 @@ export default function SignUpForm() {
       <div className="mx-auto w-full max-w-sm flex flex-col">
         <div
           className={cn(
-            "hidden p-6 pt-0 w-full",
+            "hidden",
             form.formState.isSubmitSuccessful && "hidden",
-            !isEmpty(form.formState.errors) && "block"
+            !isEmpty(form.formState.errors) && "block px-6"
           )}
         >
-          <Alert variant="destructive" className="w-full">
+          <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Error</AlertTitle>
             <AlertDescription>
