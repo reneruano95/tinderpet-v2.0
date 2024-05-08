@@ -24,7 +24,7 @@ import { signInSchema } from "@/lib/types/schemas";
 import { SignInSchemaType } from "@/lib/types";
 import { cn, isEmpty } from "@/lib/utils";
 import { toggleShowPassword } from "../toggle-show-password";
-import { signIn } from "@/lib/actions/auth";
+import { getUserById, signIn } from "@/lib/actions/auth";
 import { ToastError } from "@/components/toast-error";
 
 export default function SignInForm() {

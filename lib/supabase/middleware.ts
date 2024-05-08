@@ -57,10 +57,6 @@ export const updateSession = async (request: NextRequest) => {
     }
   );
 
-  if (!supabase) {
-    throw new Error("Supabase client not initialized");
-  }
-
   // Run any auth logic if needed
   // const { data: user, error } = await supabase.auth.getUser();
   await supabase.auth.getUser();

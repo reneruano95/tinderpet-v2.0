@@ -4,15 +4,19 @@ import { useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
-import { signOut } from "@/lib/actions/auth";
+import { getUser, getUserById, signOut } from "@/lib/actions/auth";
 
 export function LogoutButton({ className, variant, label }: any) {
   const router = useRouter();
   const handleLogout = async () => {
-    const error = await signOut();
+    // Check if we have a user
+    const {
+      data: { user },
+      error: authError,
+    } = await getUser();
 
-    if (error) {
-      console.log(error);
+    if (user) {
+      await signOut();
     }
 
     router.push("/sign-in");
@@ -20,6 +24,23 @@ export function LogoutButton({ className, variant, label }: any) {
   return (
     <Button variant={variant} className={cn(className)} onClick={handleLogout}>
       {label}
+    </Button>
+  );
+}
+
+export function FetchUserButton({ className, variant, label }: any) {
+  const handleFetchUser = async () => {
+    const { data } = await getUserById();
+
+    console.log(data);
+  };
+  return (
+    <Button
+      variant={variant}
+      className={cn(className)}
+      onClick={handleFetchUser}
+    >
+      Fetch User
     </Button>
   );
 }

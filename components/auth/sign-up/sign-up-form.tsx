@@ -24,7 +24,8 @@ import { toggleShowPassword } from "../toggle-show-password";
 import { signUpSchema } from "@/lib/types/schemas";
 import { SignUpSchemaType } from "@/lib/types";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { signUp } from "@/lib/actions/auth";
+import { getUser, signUp } from "@/lib/actions/auth";
+import { ToastError } from "@/components/toast-error";
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -46,7 +47,7 @@ export default function SignUpForm() {
     const { error } = await signUp(data);
 
     if (error) {
-      toast.error(error.message);
+      toast.error(<ToastError error={error} />);
     } else {
       toast.success("Sign up successful");
       form.reset();

@@ -1,11 +1,11 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { type NextRequest } from "next/server";
 import { updateSession } from "./lib/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
   const { supabase, response } = await updateSession(request);
 
   if (!supabase) {
-    return NextResponse.redirect(new URL("/sign-in", request.url));
+    console.log("Supabase client not initialized");
   }
 
   return response;
