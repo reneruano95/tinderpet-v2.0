@@ -20,16 +20,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { cn, isEmpty } from "@/lib/utils";
-import { useTtoggleShowPassword } from "@/lib/hooks/useToggleShowPassword";
+import { useToggleShowPassword } from "@/lib/hooks/useToggleShowPassword";
 import { signUpSchema } from "@/lib/types/schemas";
 import { SignUpSchemaType } from "@/lib/types";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { signUp } from "@/lib/actions/auth";
 import { ToastError } from "@/components/toast-error";
+import { getAllUsers } from "@/lib/actions/users";
 
 export default function SignUpForm() {
   const router = useRouter();
-  const { showPassword, showPasswordHandler } = useTtoggleShowPassword();
+  const { showPassword, showPasswordHandler } = useToggleShowPassword();
 
   const form = useForm<SignUpSchemaType>({
     resolver: zodResolver(signUpSchema),
@@ -44,10 +45,10 @@ export default function SignUpForm() {
   const onSubmit = async (data: SignUpSchemaType) => {
     // console.log(data);
 
-    const { error } = await signUp(data);
+    const { error: authError } = await signUp(data);
 
-    if (error) {
-      toast.error(<ToastError error={error} />);
+    if (authError) {
+      toast.error(<ToastError error={authError} />);
     } else {
       toast.success("Sign up successful");
       form.reset();
@@ -85,6 +86,7 @@ export default function SignUpForm() {
                           {...field}
                           type="text"
                           className="!mt-0"
+                          autoComplete="given-name"
                         />
                       </FormControl>
                       {/* <FormMessage className="!mt-0" /> */}
@@ -105,6 +107,7 @@ export default function SignUpForm() {
                           {...field}
                           type="text"
                           className="!mt-0"
+                          autoComplete="family-name"
                         />
                       </FormControl>
                       {/* <FormMessage className="!mt-0" /> */}
@@ -126,6 +129,7 @@ export default function SignUpForm() {
                         {...field}
                         type="email"
                         className="!mt-0"
+                        autoComplete="email"
                       />
                     </FormControl>
                     {/* <FormMessage className="!mt-0" /> */}
@@ -146,6 +150,7 @@ export default function SignUpForm() {
                           {...field}
                           className="rounded-e-none"
                           type={showPassword ? "text" : "password"}
+                          autoComplete="current-password"
                         />
                         <Button
                           asChild

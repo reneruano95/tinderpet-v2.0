@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
-import { getUser, getUserById, signOut } from "@/lib/actions/auth";
+import { getUser, signOut } from "@/lib/actions/auth";
+import { getAllUsers } from "@/lib/actions/users";
 
 export function LogoutButton({ className, variant, label }: any) {
   const router = useRouter();
@@ -24,6 +25,20 @@ export function LogoutButton({ className, variant, label }: any) {
   return (
     <Button variant={variant} className={cn(className)} onClick={handleLogout}>
       {label}
+    </Button>
+  );
+}
+
+export function FetchAllUsers() {
+  const handleFnTest = async () => {
+    const { data, error } = await getAllUsers();
+
+    console.log(data);
+  };
+
+  return (
+    <Button variant="outline" onClick={handleFnTest}>
+      Fetch All Users
     </Button>
   );
 }

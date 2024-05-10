@@ -1,5 +1,6 @@
-import { LogoutButton } from "@/components/logout-button";
-import { getUser, getUserById } from "@/lib/actions/auth";
+import { FetchAllUsers, LogoutButton } from "@/components/logout-button";
+import { getUser } from "@/lib/actions/auth";
+import { getUserById } from "@/lib/actions/users";
 
 export default async function HomePage() {
   const {
@@ -18,6 +19,7 @@ export default async function HomePage() {
 
       <pre>{JSON.stringify(userById, null, 2)}</pre>
       <LogoutButton label="Logout" variant="destructive" className="mt-4" />
+      <FetchAllUsers />
     </div>
   );
 }

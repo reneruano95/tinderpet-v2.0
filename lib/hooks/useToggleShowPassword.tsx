@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function useTtoggleShowPassword() {
+export function useToggleShowPassword() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const showPasswordHandler = (event?: React.MouseEvent<HTMLButtonElement>) => {

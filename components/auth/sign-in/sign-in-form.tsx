@@ -23,13 +23,13 @@ import { Input } from "@/components/ui/input";
 import { signInSchema } from "@/lib/types/schemas";
 import { SignInSchemaType } from "@/lib/types";
 import { cn, isEmpty } from "@/lib/utils";
-import { useTtoggleShowPassword } from "@/lib/hooks/useToggleShowPassword";
+import { useToggleShowPassword } from "@/lib/hooks/useToggleShowPassword";
 import { signIn } from "@/lib/actions/auth";
 import { ToastError } from "@/components/toast-error";
 
 export default function SignInForm() {
   const router = useRouter();
-  const { showPassword, showPasswordHandler } = useTtoggleShowPassword();
+  const { showPassword, showPasswordHandler } = useToggleShowPassword();
 
   const form = useForm<SignInSchemaType>({
     resolver: zodResolver(signInSchema),

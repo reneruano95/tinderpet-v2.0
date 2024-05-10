@@ -82,6 +82,7 @@ export async function signOut(): Promise<AuthError | null> {
   return JSON.parse(JSON.stringify(error));
 }
 
+// retrieves the current local session on the client side
 export async function getSession(): Promise<any> {
   const supabase = createClient();
 
@@ -109,27 +110,6 @@ export async function getUser(): Promise<UserResponse> {
   let result;
   try {
     result = await supabase.auth.getUser();
-  } catch (error: AuthError | any) {
-    throw new Error(`Error getting user :  ${error}`);
-  }
-
-  return JSON.parse(JSON.stringify(result));
-}
-
-export async function getUserById({
-  id,
-}: {
-  id: string | undefined;
-}): Promise<PostgrestSingleResponse<any[]>> {
-  const supabase = createClient();
-
-  if (!supabase) {
-    throw new Error("Supabase client not initialized");
-  }
-
-  let result;
-  try {
-    result = await supabase.from("profiles").select("*").eq("user_id", id);
   } catch (error: AuthError | any) {
     throw new Error(`Error getting user :  ${error}`);
   }
