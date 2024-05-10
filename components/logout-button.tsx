@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { getUser, signOut } from "@/lib/actions/auth";
 import { getAllUsers } from "@/lib/actions/users";
+import { useState } from "react";
 
 export function LogoutButton({ className, variant, label }: any) {
   const router = useRouter();
@@ -30,15 +31,27 @@ export function LogoutButton({ className, variant, label }: any) {
 }
 
 export function FetchAllUsers() {
+  const [data, setData] = useState<any[]>();
   const handleFnTest = async () => {
     const { data, error } = await getAllUsers();
 
-    console.log(data);
+    if (data === null) {
+      console.log("no users found");
+    }
+
+    if (data) {
+      console.log(data);
+      return setData(data);
+    }
   };
 
   return (
-    <Button variant="outline" onClick={handleFnTest}>
-      Fetch All Users
-    </Button>
+    <>
+      <Button variant="outline" onClick={handleFnTest}>
+        Fetch All Users
+      </Button>
+
+      {data?.length !== 0 && <pre>{JSON.stringify(data, null, 2)}</pre>}
+    </>
   );
 }

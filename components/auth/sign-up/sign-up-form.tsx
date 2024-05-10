@@ -26,7 +26,6 @@ import { SignUpSchemaType } from "@/lib/types";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { signUp } from "@/lib/actions/auth";
 import { ToastError } from "@/components/toast-error";
-import { getAllUsers } from "@/lib/actions/users";
 
 export default function SignUpForm() {
   const router = useRouter();

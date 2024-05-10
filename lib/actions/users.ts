@@ -17,10 +17,7 @@ export async function getAllUsers(): Promise<PostgrestResponse<any>> {
     throw new Error("Supabase client not initialized");
   }
 
-  let result:
-    | PostgrestResponseFailure
-    | PostgrestResponseSuccess<any[]>
-    | never[];
+  let result: PostgrestResponse<any[]>;
   try {
     result = await supabase.from("profiles").select("*");
 
@@ -28,16 +25,16 @@ export async function getAllUsers(): Promise<PostgrestResponse<any>> {
       console.log("no users found");
     }
   } catch (error: any) {
-    throw new Error(`Error getting users ${error}`);
+    throw new Error(`Error getting users ${error.message}`);
   }
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }
 
 export async function getUserById({
   id,
 }: {
   id: string | undefined;
-}): Promise<PostgrestSingleResponse<any[]>> {
+}): Promise<PostgrestSingleResponse<any>> {
   const supabase = createClient();
 
   if (!supabase) {
@@ -46,10 +43,14 @@ export async function getUserById({
 
   let result;
   try {
-    result = await supabase.from("profiles").select("*").eq("user_id", id);
+    result = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("user_id", id)
+      .single();
   } catch (error: any) {
     throw new Error(`Error getting user: ${error}`);
   }
 
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }
