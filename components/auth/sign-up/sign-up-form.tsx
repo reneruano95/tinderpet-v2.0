@@ -20,16 +20,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { cn, isEmpty } from "@/lib/utils";
-import { toggleShowPassword } from "../toggle-show-password";
+import { useTtoggleShowPassword } from "@/lib/hooks/useToggleShowPassword";
 import { signUpSchema } from "@/lib/types/schemas";
 import { SignUpSchemaType } from "@/lib/types";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { getUser, signUp } from "@/lib/actions/auth";
+import { signUp } from "@/lib/actions/auth";
 import { ToastError } from "@/components/toast-error";
 
 export default function SignUpForm() {
   const router = useRouter();
-  const { showPassword, showPasswordHandler } = toggleShowPassword();
+  const { showPassword, showPasswordHandler } = useTtoggleShowPassword();
 
   const form = useForm<SignUpSchemaType>({
     resolver: zodResolver(signUpSchema),
