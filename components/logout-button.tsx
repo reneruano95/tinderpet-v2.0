@@ -27,20 +27,3 @@ export function LogoutButton({ className, variant, label }: any) {
     </Button>
   );
 }
-
-export function FetchUserButton({ className, variant, label }: any) {
-  const handleFetchUser = async () => {
-    const { data } = await getUserById();
-
-    console.log(data);
-  };
-  return (
-    <Button
-      variant={variant}
-      className={cn(className)}
-      onClick={handleFetchUser}
-    >
-      Fetch User
-    </Button>
-  );
-}

@@ -116,7 +116,11 @@ export async function getUser(): Promise<UserResponse> {
   return JSON.parse(JSON.stringify(result));
 }
 
-export async function getUserById(): Promise<PostgrestSingleResponse<any[]>> {
+export async function getUserById({
+  id,
+}: {
+  id: string | undefined;
+}): Promise<PostgrestSingleResponse<any[]>> {
   const supabase = createClient();
 
   if (!supabase) {
@@ -125,7 +129,7 @@ export async function getUserById(): Promise<PostgrestSingleResponse<any[]>> {
 
   let result;
   try {
-    result = await supabase.from("profiles").select("*");
+    result = await supabase.from("profiles").select("*").eq("user_id", id);
   } catch (error: AuthError | any) {
     throw new Error(`Error getting user :  ${error}`);
   }
