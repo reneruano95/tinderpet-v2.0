@@ -11,32 +11,63 @@ export interface StepperProps {
 
 export const Stepper: FC<StepperProps> = ({ steps, currentStep, goTo }) => (
   <div className="absolute -top-20 left-0 w-full md:w-[20%] md:relative md:top-0 md:left-0">
-    {/* <!-- Stepper --> */}
-    <ul className="relative flex md:flex-col flex-row gap-2 h-full md:items-start">
+    <ul className="relative flex md:flex-col flex-row gap-2 h-full">
       {/* <!-- Item --> */}
+      {steps.map((step, index) => {
+        const isActive = index + 1 === currentStep;
+        const isLastStep = index + 1 === steps.length;
 
-      {steps.map((step, index) => (
-        <li
-          key={step}
-          className="flex md:flex-col flex-row items-center gap-x-2 shrink basis-0 flex-1 group"
-        >
-          <div className="min-w-7 min-h-7 inline-flex items-center text-xs align-middle md:grow grow-0">
-            <span className="size-7 flex justify-center items-center flex-shrink-0 bg-gray-100 font-medium text-gray-800 rounded-full">
-              {index + 1 >= currentStep ? (
-                index + 1
-              ) : (
-                <Check className="w-4 h-4 text-green-500" />
-              )}
-            </span>
-            <span className="ms-2 block md:grow grow-0 text-sm font-medium text-gray-800">
-              {step}
-            </span>
-          </div>
-          <div className="md:mt-2 md:w-px md:h-4 mt-0 md:ms-3.5 ms-0 w-full h-px flex-1 bg-gray-200 group-last:hidden"></div>
-        </li>
-      ))}
+        const divider = () => {
+          if (!isLastStep) {
+            return (
+              <div
+                className={cn(
+                  "md:mt-2 md:ms-0 md:w-px md:h-full mt-0 ms-2 w-full h-px flex-1 bg-gray-200 group-last:hidden dark:bg-neutral-700",
+                  isActive && "bg-gray-200",
+                  currentStep > index + 1 && "bg-green-500"
+                )}
+              ></div>
+            );
+          }
+          return null;
+        };
+
+        return (
+          <li
+            key={step}
+            className={cn(
+              "shrink md:shrink-0 basis-0 group md:flex gap-x-2 block",
+              !isLastStep && "flex-1"
+            )}
+          >
+            <div className="md:min-w-7 md:min-h-7 md:w-6 md:flex md:flex-col items-center w-full inline-flex flex-wrap flex-row text-xs align-middle">
+              <span
+                className={cn(
+                  "size-8 flex justify-center items-center flex-shrink-0 bg-gray-100 font-medium text-gray-800 rounded-full dark:bg-neutral-700 dark:text-white",
+                  isActive &&
+                    "bg-gray-100 text-gray-800 border-2 border-gray-800",
+                  currentStep < index + 1 && "bg-gray-100 text-gray-800",
+                  currentStep > index + 1 && "bg-green-500 text-white"
+                )}
+              >
+                {index + 1 >= currentStep ? (
+                  index + 1
+                ) : (
+                  <Check className="w-4 h-4" />
+                )}
+              </span>
+              {divider()}
+            </div>
+
+            <div className="md:grow grow-0 mt-3 md:ms-3 ms-0 md:mt-1 pb-5">
+              <span className="block text-sm font-medium text-gray-800 dark:text-white">
+                Step
+              </span>
+            </div>
+          </li>
+        );
+      })}
       {/* <!-- End Item --> */}
     </ul>
-    {/* <!-- End Stepper --> */}
   </div>
 );
