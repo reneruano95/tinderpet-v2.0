@@ -59,9 +59,9 @@ export const Stepper: FC<StepperProps> = ({ steps, currentStep, goTo }) => (
               {divider()}
             </div>
 
-            <div className="md:grow grow-0 mt-3 md:ms-3 ms-0 md:mt-1 pb-5">
+            <div className="hidden md:block md:grow md:ms-3 ms-0 md:mt-1 pb-5">
               <span className="block text-sm font-medium text-gray-800 dark:text-white">
-                Step
+                {step}
               </span>
             </div>
           </li>
@@ -69,5 +69,8 @@ export const Stepper: FC<StepperProps> = ({ steps, currentStep, goTo }) => (
       })}
       {/* <!-- End Item --> */}
     </ul>
+    <div className="block md:hidden mt-2 font-medium text-gray-800 dark:text-white">
+      Step {currentStep}: {steps[currentStep - 1]}
+    </div>
   </div>
 );
