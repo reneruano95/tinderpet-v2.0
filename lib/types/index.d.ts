@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 import { z } from "zod";
-import { signInSchema, signUpSchema } from "./schemas";
+import { signInSchema, signUpSchema } from "../schemas/auth";
 
 declare interface SignInSchemaType extends z.infer<typeof signInSchema> {}
 

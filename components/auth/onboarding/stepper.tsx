@@ -48,7 +48,8 @@ export const Stepper: FC<StepperProps> = ({ steps, currentStep, goTo }) => (
                   isActive &&
                     "bg-gray-100 text-gray-800 border-2 border-gray-800",
                   currentStep < index + 1 && "bg-gray-100 text-gray-800",
-                  currentStep > index + 1 && "bg-green-500 text-white"
+                  currentStep > index + 1 && "bg-green-500 text-white",
+                  "hover:cursor-pointer"
                 )}
               >
                 {index + 1 >= currentStep ? (

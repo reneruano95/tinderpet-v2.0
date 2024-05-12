@@ -1,10 +1,6 @@
 "use server";
 
 import {
-  PostgrestResponseFailure,
-  PostgrestResponseSuccess,
-} from "@supabase/postgrest-js";
-import {
   PostgrestResponse,
   PostgrestSingleResponse,
 } from "@supabase/supabase-js";

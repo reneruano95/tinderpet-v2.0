@@ -20,7 +20,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-import { signInSchema } from "@/lib/types/schemas";
+import { signInSchema } from "@/lib/schemas/auth";
 import { SignInSchemaType } from "@/lib/types";
 import { cn, isEmpty } from "@/lib/utils";
 import { useToggleShowPassword } from "@/lib/hooks/useToggleShowPassword";

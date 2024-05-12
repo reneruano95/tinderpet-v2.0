@@ -1,17 +1,23 @@
-"use client";
-import { useMultiStepForm } from "@/lib/hooks/useMultiStepForm";
-import { Stepper } from "./stepper";
-import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-export function FormFrame({ children }: { children: React.ReactNode }) {
-  const { steps, currentStep, nextStep, prevStep, goTo } = useMultiStepForm([
-    "Days",
-    "Shifts",
-    "Hours",
-    "Roles",
-  ]);
+import { Stepper } from "./stepper";
+import { Button } from "@/components/ui/button";
 
+export function FormFrame({
+  steps,
+  currentStep,
+  goTo,
+  nextStep,
+  prevStep,
+  children,
+}: {
+  steps: string[];
+  currentStep: number;
+  goTo: (step: number) => void;
+  nextStep: () => void;
+  prevStep: () => void;
+  children: React.ReactNode;
+}) {
   return (
     <div className="flex justify-between h-[500px] w-11/12 max-w-4xl m-1 relative rounded-lg border border-neutral-700  p-4">
       <Stepper steps={steps} currentStep={currentStep} goTo={goTo} />

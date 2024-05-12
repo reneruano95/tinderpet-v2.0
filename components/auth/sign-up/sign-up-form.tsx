@@ -21,7 +21,7 @@ import { Input } from "@/components/ui/input";
 
 import { cn, isEmpty } from "@/lib/utils";
 import { useToggleShowPassword } from "@/lib/hooks/useToggleShowPassword";
-import { signUpSchema } from "@/lib/types/schemas";
+import { signUpSchema } from "@/lib/schemas/auth";
 import { SignUpSchemaType } from "@/lib/types";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { signUp } from "@/lib/actions/auth";
