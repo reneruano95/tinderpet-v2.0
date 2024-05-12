@@ -18,7 +18,7 @@ export default function Step1() {
           Create Pet Profile
         </h1>
         <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base">
-          Add your pet's details to find the perfect match.
+          Add your pet&apos;s details to find the perfect match.
         </p>
       </div>
 
@@ -28,6 +28,7 @@ export default function Step1() {
             <Label htmlFor="name">Name</Label>
             <Input id="name" placeholder="Enter your pet's name" required />
           </div>
+
           <div className="space-y-2">
             <Label htmlFor="age">Age</Label>
             <Input
@@ -38,12 +39,18 @@ export default function Step1() {
             />
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-4">
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="specie">Specie</Label>
+            <Input id="specie" placeholder="Enter your pet's specie" required />
+          </div>
           <div className="space-y-2">
             <Label htmlFor="breed">Breed</Label>
             <Input id="breed" placeholder="Enter your pet's breed" required />
           </div>
         </div>
+
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="gender">Gender</Label>
@@ -72,10 +79,6 @@ export default function Step1() {
             </Select>
           </div>
         </div>
-
-        <Button className="w-full" type="submit">
-          Create Profile
-        </Button>
       </form>
     </div>
   );
