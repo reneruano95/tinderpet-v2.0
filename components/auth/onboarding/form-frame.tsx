@@ -28,7 +28,6 @@ export function FormFrame({
             type="button"
             variant="outline"
             className="inline-flex items-center gap-x-1 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
-            data-hs-stepper-back-btn=""
             disabled={currentStep === 1}
             onClick={currentStep === 1 ? undefined : prevStep}
           >
@@ -39,7 +38,6 @@ export function FormFrame({
             type="button"
             variant="default"
             className="inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none"
-            data-hs-stepper-next-btn=""
             onClick={nextStep}
           >
             {currentStep === steps.length ? "Finish" : "Next"}
