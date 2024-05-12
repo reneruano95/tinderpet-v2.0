@@ -1,5 +1,10 @@
 import { useState } from "react";
 
+// export type Step = {
+//   name: string;
+//   fields: string[];
+// };
+
 export function useMultiStepForm(steps: string[] = []) {
   const [currentStep, setCurrentStep] = useState(1);
 

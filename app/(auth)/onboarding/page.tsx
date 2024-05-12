@@ -5,13 +5,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { FormFrame } from "@/components/auth/onboarding/form-frame";
-import Step1 from "@/components/auth/onboarding/step-1";
-import Step2 from "@/components/auth/onboarding/step-2";
 import { useMultiStepForm } from "@/lib/hooks/useMultiStepForm";
 import { onboardingSchema } from "@/lib/schemas/onboarding";
 import { OnboardingFormValues } from "@/lib/types";
-
-// type FormStep = "Days" | "Shifts" | "Hours";
+import Step1 from "@/components/auth/onboarding/step-1";
+import Step2 from "@/components/auth/onboarding/step-2";
+import Step3 from "@/components/auth/onboarding/step-3";
 
 export default function OnboardingPage() {
   const { steps, currentStep, nextStep, prevStep, goTo } = useMultiStepForm([
@@ -30,17 +29,24 @@ export default function OnboardingPage() {
     resolver: zodResolver(onboardingSchema),
   });
 
+  type FieldName = keyof OnboardingFormValues;
+  const fieldNames: FieldName[] = ["name", "age", "specie", "breed", "gender"];
+
   const handlerNext = useCallback(
     (next: string) => async () => {
-      const valid = await form.trigger();
+      const valid = await form.trigger(fieldNames, {
+        shouldFocus: true,
+      });
+
       if (valid) {
         goTo(steps.indexOf(next) + 1);
-      } else {
+      }
+      if (!valid) {
         console.log("invalid");
         return;
       }
     },
-    [form]
+    [form, goTo, steps, currentStep]
   );
 
   return (
@@ -56,6 +62,7 @@ export default function OnboardingPage() {
           <div className="w-full h-[90%]">
             {currentStep === 1 && <Step1 />}
             {currentStep === 2 && <Step2 />}
+            {currentStep === 3 && <Step3 />}
           </div>
         </FormProvider>
       </FormFrame>
