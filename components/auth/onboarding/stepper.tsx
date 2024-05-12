@@ -39,6 +39,7 @@ export const Stepper: FC<StepperProps> = ({ steps, currentStep, goTo }) => (
               "shrink md:shrink-0 basis-0 group md:flex gap-x-2 block",
               !isLastStep && "flex-1"
             )}
+            onClick={() => goTo(index + 1)}
           >
             <div className="md:min-w-7 md:min-h-7 md:w-6 md:flex md:flex-col items-center w-full inline-flex flex-wrap flex-row text-xs align-middle">
               <span
