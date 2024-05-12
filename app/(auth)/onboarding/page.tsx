@@ -4,7 +4,7 @@ export default function OnboardingPage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">
       <FormFrame>
-        <div></div>
+        <div className="w-full h-[90%]"></div>
       </FormFrame>
     </div>
   );
