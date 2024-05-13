@@ -1,6 +1,5 @@
 import { useFormContext } from "react-hook-form";
 
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
   SelectValue,
@@ -23,8 +22,8 @@ export default function Step1() {
   const form = useFormContext<OnboardingFormValues>();
 
   return (
-    <div className="space-y-2 w-full">
-      <div className="space-y-2 text-left">
+    <div className="w-full flex flex-col h-full">
+      <div className="text-left">
         <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">
           Create Pet Profile
         </h1>
@@ -33,110 +32,99 @@ export default function Step1() {
         </p>
       </div>
 
-      <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your pet's name" {...field} />
+      <div className="flex-1 flex flex-col justify-center">
+        <div className="grid grid-cols-4 gap-2">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem className="col-span-2 sm:col-span-1 space-y-1">
+                <FormLabel className="font-semibold text-base">Name:</FormLabel>
+                <FormControl>
+                  <Input className="px-2 py-1" placeholder="" {...field} />
+                </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="gender"
+            render={({ field }) => (
+              <FormItem className="col-span-2 sm:col-span-1 space-y-1">
+                <FormLabel className="font-semibold text-base">
+                  Gender:
+                </FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl className="px-2 py-1">
+                    <SelectTrigger className="text-left">
+                      <SelectValue placeholder="Select gender" />
+                    </SelectTrigger>
                   </FormControl>
-                  <FormDescription />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
 
-          <div className="space-y-2">
-            <FormField
-              control={form.control}
-              name="age"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Age</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your pet's age" {...field} />
-                  </FormControl>
-                  <FormDescription />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
+                  <SelectContent>
+                    <SelectItem value="male">Male</SelectItem>
+                    <SelectItem value="female">Female</SelectItem>
+                  </SelectContent>
+                </Select>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <FormField
-              control={form.control}
-              name="specie"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Specie</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your pet's specie" {...field} />
-                  </FormControl>
-                  <FormDescription />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
 
-          <div className="space-y-2">
-            <FormField
-              control={form.control}
-              name="breed"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Breed</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your pet's breed" {...field} />
-                  </FormControl>
-                  <FormDescription />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
+          <FormField
+            control={form.control}
+            name="age"
+            render={({ field }) => (
+              <FormItem className="col-span-3 sm:col-span-2 space-y-1">
+                <FormLabel className="font-semibold text-base">Age:</FormLabel>
+                <FormControl>
+                  <Input className="px-2 py-1" placeholder="" {...field} />
+                </FormControl>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <FormField
-              control={form.control}
-              name="gender"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Gender</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select gender" />
-                      </SelectTrigger>
-                    </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
 
-                    <SelectContent>
-                      <SelectItem value="male">Male</SelectItem>
-                      <SelectItem value="female">Female</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
+          <FormField
+            control={form.control}
+            name="specie"
+            render={({ field }) => (
+              <FormItem className="col-span-2 space-y-1 mt-2">
+                <FormLabel className="font-semibold text-base">
+                  Specie:
+                </FormLabel>
+                <FormControl>
+                  <Input className="px-2 py-1" placeholder="" {...field} />
+                </FormControl>
 
-                  <FormDescription />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="breed"
+            render={({ field }) => (
+              <FormItem className="col-span-2 space-y-1 mt-2">
+                <FormLabel className="font-semibold text-base">
+                  Breed:
+                </FormLabel>
+                <FormControl>
+                  <Input className="px-2 py-1" placeholder="" {...field} />
+                </FormControl>
+
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
         </div>
       </div>
     </div>

@@ -14,9 +14,9 @@ import Step3 from "@/components/auth/onboarding/step-3";
 
 export default function OnboardingPage() {
   const { steps, currentStep, nextStep, prevStep, goTo } = useMultiStepForm([
-    "Days",
-    "Shifts",
-    "Hours",
+    "Pet Details",
+    "Traits & Interests",
+    "Review",
   ]);
   const form = useForm<OnboardingFormValues>({
     defaultValues: {
@@ -30,7 +30,7 @@ export default function OnboardingPage() {
   });
 
   type FieldName = keyof OnboardingFormValues;
-  const fieldNames: FieldName[] = ["name", "age", "specie", "breed", "gender"];
+  const fieldNames: FieldName[] = ["name", "gender", "age", "specie", "breed"];
 
   const handlerNext = useCallback(
     (next: string) => async () => {
@@ -46,7 +46,7 @@ export default function OnboardingPage() {
         return;
       }
     },
-    [form, goTo, steps, currentStep]
+    [form]
   );
 
   return (

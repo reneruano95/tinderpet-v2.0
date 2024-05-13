@@ -19,9 +19,9 @@ export function FormFrame({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex justify-between h-[500px] w-11/12 max-w-4xl m-1 relative rounded-lg border border-neutral-700  p-4">
+    <div className="flex justify-between h-[500px] w-11/12 max-w-2xl m-1 relative rounded-lg border border-neutral-700  p-4">
       <Stepper steps={steps} currentStep={currentStep} goTo={goTo} />
-      <div className="w-full flex flex-col md:w-[80%] bg-white rounded-lg border border-neutral-700">
+      <div className="w-full flex flex-col md:w-[75%] bg-white rounded-lg border border-neutral-700">
         {children}
         <div className="flex h-[10%] justify-between items-center gap-x-2">
           <Button

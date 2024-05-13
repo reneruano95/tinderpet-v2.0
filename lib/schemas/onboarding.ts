@@ -10,6 +10,6 @@ export const onboardingSchema = z.object({
       required_error: "Please select a gender",
     })
     .refine((val) => val === "male" || val === "female", {
-      message: "Please select a gender",
+      message: "Select a gender",
     }),
 });
