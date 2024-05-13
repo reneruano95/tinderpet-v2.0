@@ -42,17 +42,16 @@ export default function SignInForm() {
   const onSubmit = async (data: SignInSchemaType) => {
     // console.log(data);
 
-    const { error: authError } = await signIn(data);
+    const { error } = await signIn(data);
 
-    if (authError) {
-      toast.error(<ToastError error={authError} />, {
+    if (error) {
+      toast.error(<ToastError error={error} />, {
         duration: 3000,
       });
     } else {
       toast.success("Login successful");
       form.reset();
-
-      router.push("/home");
+      router.push('/home')
     }
   };
 
@@ -86,7 +85,6 @@ export default function SignInForm() {
                         className="!mt-0"
                       />
                     </FormControl>
-                    {/* <FormMessage className="!mt-0" /> */}
                   </FormItem>
                 )}
               />
@@ -132,8 +130,6 @@ export default function SignInForm() {
                     <FormDescription className="!mt-0">
                       Contact us if you forgot your password.
                     </FormDescription>
-
-                    {/* <FormMessage className="!mt-0" /> */}
                   </FormItem>
                 )}
               />

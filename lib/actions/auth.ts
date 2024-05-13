@@ -9,6 +9,9 @@ import {
 
 import { createClient } from "../supabase/server";
 import { SignInSchemaType, SignUpSchemaType } from "../types";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
 
 export async function signIn(
   data: SignInSchemaType
@@ -26,7 +29,7 @@ export async function signIn(
       email,
       password,
     });
-  } catch (error: AuthError | any) {
+  } catch (error: unknown) {
     throw new Error(`Error signing in:  ${error}`);
   }
 
@@ -55,8 +58,8 @@ export async function signUp(data: SignUpSchemaType): Promise<AuthResponse> {
         },
       },
     });
-  } catch (error: AuthError | any) {
-    throw new Error(`Error signing up :  ${error.message}`);
+  } catch (error: unknown) {
+    throw new Error(`Error signing up:  ${error}`);
   }
 
   return JSON.parse(JSON.stringify(result));
@@ -72,8 +75,8 @@ export async function signOut(): Promise<AuthError | null> {
   let result;
   try {
     result = await supabase.auth.signOut();
-  } catch (error: AuthError | any) {
-    throw new Error(`Error signing out :  ${error}`);
+  } catch (error: unknown) {
+    throw new Error(`Error signing out:  ${error}`);
   }
 
   let { error } = result;
@@ -92,8 +95,8 @@ export async function getSession(): Promise<any> {
   let result;
   try {
     result = await supabase.auth.getSession();
-  } catch (error) {
-    throw new Error(`Error getting session :  ${error}`);
+  } catch (error: unknown) {
+    throw new Error(`Error getting session:  ${error}`);
   }
   return JSON.parse(JSON.stringify(result));
 }
@@ -109,8 +112,8 @@ export async function getUser(): Promise<UserResponse> {
   let result;
   try {
     result = await supabase.auth.getUser();
-  } catch (error: AuthError | any) {
-    throw new Error(`Error getting user :  ${error}`);
+  } catch (error: unknown) {
+    throw new Error(`Error getting user:  ${error}`);
   }
 
   return JSON.parse(JSON.stringify(result));

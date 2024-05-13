@@ -88,7 +88,6 @@ export default function SignUpForm() {
                           autoComplete="given-name"
                         />
                       </FormControl>
-                      {/* <FormMessage className="!mt-0" /> */}
                     </FormItem>
                   )}
                 />
@@ -109,7 +108,6 @@ export default function SignUpForm() {
                           autoComplete="family-name"
                         />
                       </FormControl>
-                      {/* <FormMessage className="!mt-0" /> */}
                     </FormItem>
                   )}
                 />
@@ -131,7 +129,6 @@ export default function SignUpForm() {
                         autoComplete="email"
                       />
                     </FormControl>
-                    {/* <FormMessage className="!mt-0" /> */}
                   </FormItem>
                 )}
               />
