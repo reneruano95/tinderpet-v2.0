@@ -57,15 +57,5 @@ export const updateSession = async (request: NextRequest) => {
     }
   );
 
-  // Run any auth logic if needed
-  // const { data: user, error } = await supabase.auth.getUser();
-  await supabase.auth.getUser();
-  // if (error) {
-  //   console.error(error);
-  // }
-  // if (!user) {
-  //   throw new Error("User not authenticated");
-  // }
-  // Return the response
   return { supabase, response };
 };

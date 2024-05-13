@@ -1,4 +1,4 @@
-import { type NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "./lib/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
@@ -7,6 +7,16 @@ export async function middleware(request: NextRequest) {
   if (!supabase) {
     console.log("Supabase client not initialized");
   }
+  const { data: { user }, error } = await supabase.auth.getUser();
+
+  if (!user && !request.nextUrl.pathname.startsWith('/sign') && !request.nextUrl.pathname.startsWith('/onboarding')) {
+    return NextResponse.redirect(new URL('/sign-in', request.url))
+  }
+
+  if (user && request.nextUrl.pathname.startsWith('/sign')) {
+    return NextResponse.redirect(new URL('/home', request.url))
+  }
+
 
   return response;
 }
