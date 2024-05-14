@@ -34,9 +34,7 @@ export default function OnboardingPage() {
 
   const handlerNext = useCallback(
     (next: string) => async () => {
-      const valid = await form.trigger(fieldNames, {
-        shouldFocus: true,
-      });
+      const valid = await form.trigger(fieldNames, { shouldFocus: true });
 
       if (valid) {
         goTo(steps.indexOf(next) + 1);

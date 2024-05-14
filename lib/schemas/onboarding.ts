@@ -12,4 +12,6 @@ export const onboardingSchema = z.object({
     .refine((val) => val === "male" || val === "female", {
       message: "Select a gender",
     }),
+  traits: z.string().array().min(5),
+  interests: z.array(z.string().min(1, "Please select at least one interest.")),
 });
