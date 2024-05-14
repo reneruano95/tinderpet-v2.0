@@ -1,7 +1,12 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import { Stepper } from "./stepper";
+import Stepper from "./stepper";
 import { Button } from "@/components/ui/button";
+import { StepperProps } from "@/lib/types";
+
+interface FormFrameProps extends StepperProps {
+  children: React.ReactNode
+}
 
 export function FormFrame({
   steps,
@@ -10,14 +15,9 @@ export function FormFrame({
   nextStep,
   prevStep,
   children,
-}: {
-  steps: string[];
-  currentStep: number;
-  goTo: (step: number) => void;
-  nextStep: () => void;
-  prevStep: () => void;
-  children: React.ReactNode;
-}) {
+}:
+  FormFrameProps
+) {
   return (
     <div className="flex justify-between h-[500px] w-11/12 max-w-2xl m-1 relative rounded-lg border border-neutral-700  p-4">
       <Stepper steps={steps} currentStep={currentStep} goTo={goTo} />

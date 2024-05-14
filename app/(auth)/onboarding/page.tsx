@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -12,12 +12,23 @@ import Step1 from "@/components/auth/onboarding/step-1";
 import Step2 from "@/components/auth/onboarding/step-2";
 import Step3 from "@/components/auth/onboarding/step-3";
 
+
+const stepsTest = [
+  {
+    title: "Step 1",
+    description: "Pet Details",
+    fields: ["name", "specie", "breed", "age", "gender"],
+  },
+  {
+    title: "Step 2 ",
+    description: "Traits & Interests",
+    fields: ["traits", "interests"],
+  },
+  { title: "Step 3", description: "Review" },
+];
+
 export default function OnboardingPage() {
-  const { steps, currentStep, nextStep, prevStep, goTo } = useMultiStepForm([
-    "Pet Details",
-    "Traits & Interests",
-    "Review",
-  ]);
+  const { steps, currentStep, nextStep, prevStep, goTo } = useMultiStepForm(stepsTest);
   const form = useForm<OnboardingFormValues>({
     defaultValues: {
       name: "",
@@ -25,35 +36,37 @@ export default function OnboardingPage() {
       specie: "",
       breed: "",
       gender: "",
+      interests: [],
+      traits: []
     },
     resolver: zodResolver(onboardingSchema),
   });
 
   type FieldName = keyof OnboardingFormValues;
-  const fieldNames: FieldName[] = ["name", "gender", "age", "specie", "breed"];
 
-  const handlerNext = useCallback(
-    (next: string) => async () => {
-      const valid = await form.trigger(fieldNames, { shouldFocus: true });
 
-      if (valid) {
-        goTo(steps.indexOf(next) + 1);
-      }
-      if (!valid) {
-        console.log("invalid");
-        return;
-      }
-    },
-    [form]
-  );
+  const handlerNext = async () => {
+    const fields = steps[currentStep - 1].fields;
+    const valid = await form.trigger(fields as FieldName[], { shouldFocus: true });
+
+    if (valid) {
+      nextStep();
+    }
+
+    if (!valid) {
+      console.log("invalid");
+      console.log(currentStep)
+      return;
+    }
+  }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">
       <FormFrame
-        steps={steps}
+        steps={stepsTest}
         currentStep={currentStep}
         goTo={goTo}
-        nextStep={handlerNext(steps[currentStep])}
+        nextStep={handlerNext}
         prevStep={prevStep}
       >
         <FormProvider {...form}>

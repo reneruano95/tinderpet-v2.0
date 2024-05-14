@@ -1,11 +1,12 @@
 import { useState } from "react";
 
-// export type Step = {
-//   name: string;
-//   fields: string[];
-// };
+export type Step = {
+  title: string;
+  description: string,
+  fields?: string[];
+};
 
-export function useMultiStepForm(steps: string[] = []) {
+export function useMultiStepForm(steps: Step[]) {
   const [currentStep, setCurrentStep] = useState(1);
 
   const goTo = (step: number) => {
