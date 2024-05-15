@@ -6,7 +6,7 @@ import { StepperProps } from "@/lib/types";
 import { Step } from "@/lib/hooks/useMultiStepForm";
 
 export default function Stepper({ steps, currentStep, goTo }: StepperProps) {
-  const renderIcon = useCallback((step: Step, index: number) => {
+  const renderIcon = (step: Step, index: number) => {
     const hasError = step.hasError;
     const isComplete = step.isComplete;
     return hasError ? (
@@ -16,10 +16,10 @@ export default function Stepper({ steps, currentStep, goTo }: StepperProps) {
     ) : (
       index + 1
     );
-  }, []);
+  };
 
   return (
-    <div className="absolute -top-20 left-0 w-full md:w-[20%] md:relative md:top-0 md:left-0">
+    <div className="w-full md:w-[20%] flex flex-col gap-2">
       <ul className="relative flex md:flex-col flex-row gap-2 h-full">
         {steps.map((step, index) => {
           const isActive = index + 1 === currentStep;
@@ -47,7 +47,7 @@ export default function Stepper({ steps, currentStep, goTo }: StepperProps) {
               <div className="md:min-w-7 md:min-h-7 md:w-6 md:flex md:flex-col items-center w-full inline-flex flex-wrap flex-row text-xs align-middle">
                 <span
                   className={cn(
-                    "size-8 flex justify-center items-center flex-shrink-0 bg-gray-100 font-medium text-gray-800 rounded-full dark:bg-neutral-700 dark:text-white",
+                    "size-9 flex justify-center items-center flex-shrink-0 bg-gray-100 font-medium text-gray-800 rounded-full dark:bg-neutral-700 dark:text-white",
                     isActive &&
                       "bg-gray-100 text-gray-800 border-2 border-gray-800",
                     currentStep < index + 1 && "bg-gray-100 text-gray-800",
@@ -70,7 +70,7 @@ export default function Stepper({ steps, currentStep, goTo }: StepperProps) {
           );
         })}
       </ul>
-      <div className="block md:hidden mt-2 font-medium text-gray-800 dark:text-white">
+      <div className="block md:hidden md:mt-2 font-medium text-gray-800 dark:text-white">
         Step {currentStep}: {steps[currentStep - 1].description}
       </div>
     </div>

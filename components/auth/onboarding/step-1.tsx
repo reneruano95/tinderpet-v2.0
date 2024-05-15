@@ -39,7 +39,9 @@ export default function Step1() {
             name="name"
             render={({ field }) => (
               <FormItem className="col-span-2 sm:col-span-1 space-y-1">
-                <FormLabel className="font-semibold text-base">Name:</FormLabel>
+                <FormLabel className="font-semibold text-sm sm:text-base">
+                  Name:
+                </FormLabel>
                 <FormControl>
                   <Input className="px-2 py-1" placeholder="" {...field} />
                 </FormControl>
@@ -53,7 +55,7 @@ export default function Step1() {
             name="gender"
             render={({ field }) => (
               <FormItem className="col-span-2 sm:col-span-1 space-y-1">
-                <FormLabel className="font-semibold text-base">
+                <FormLabel className="font-semibold text-sm sm:text-base">
                   Gender:
                 </FormLabel>
                 <Select
@@ -82,7 +84,9 @@ export default function Step1() {
             name="age"
             render={({ field }) => (
               <FormItem className="col-span-3 sm:col-span-2 space-y-1">
-                <FormLabel className="font-semibold text-base">Age:</FormLabel>
+                <FormLabel className="font-semibold text-sm sm:text-base">
+                  Age:
+                </FormLabel>
                 <FormControl>
                   <Input className="px-2 py-1" placeholder="" {...field} />
                 </FormControl>
@@ -97,7 +101,7 @@ export default function Step1() {
             name="specie"
             render={({ field }) => (
               <FormItem className="col-span-2 space-y-1 mt-2">
-                <FormLabel className="font-semibold text-base">
+                <FormLabel className="font-semibold text-sm sm:text-base">
                   Specie:
                 </FormLabel>
                 <FormControl>
@@ -114,7 +118,7 @@ export default function Step1() {
             name="breed"
             render={({ field }) => (
               <FormItem className="col-span-2 space-y-1 mt-2">
-                <FormLabel className="font-semibold text-base">
+                <FormLabel className="font-semibold text-sm sm:text-base">
                   Breed:
                 </FormLabel>
                 <FormControl>

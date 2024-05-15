@@ -16,7 +16,7 @@ export default function Step3() {
         </p>
       </div>
 
-      <pre className="w-full text-sm bg-gray-100 pt-4 rounded-lg dark:bg-neutral-800">
+      <pre className="w-full text-xs bg-gray-100 mt-2 rounded-lg dark:bg-neutral-800">
         {JSON.stringify(
           [allData].map((data) => {
             if (data.traits) {

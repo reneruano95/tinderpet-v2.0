@@ -10,6 +10,7 @@ import { OnboardingFormValues } from "@/lib/types";
 import Step1 from "@/components/auth/onboarding/step-1";
 import Step2 from "@/components/auth/onboarding/step-2";
 import Step3 from "@/components/auth/onboarding/step-3";
+import { useCallback } from "react";
 
 const stepsTest = [
   {
@@ -32,6 +33,7 @@ const stepsTest = [
 export default function OnboardingPage() {
   const { steps, currentStep, nextStep, prevStep, goTo } =
     useMultiStepForm(stepsTest);
+
   const form = useForm<OnboardingFormValues>({
     defaultValues: {
       name: "",
@@ -45,9 +47,16 @@ export default function OnboardingPage() {
     resolver: zodResolver(onboardingSchema),
   });
 
+  const handlerCreatePet = useCallback(
+    async (data: OnboardingFormValues) => {
+      console.log(data);
+    },
+    [form]
+  );
+
   type FieldName = keyof OnboardingFormValues;
 
-  const handlerNext = async () => {
+  const handlerNext = useCallback(async () => {
     const fields = steps[currentStep - 1].fields;
     const valid = await form.trigger(fields as FieldName[], {
       shouldFocus: true,
@@ -67,7 +76,15 @@ export default function OnboardingPage() {
       console.log("fields to validate:", steps[currentStep - 1].fields);
       return;
     }
-  };
+
+    if (currentStep === 3) {
+      return await form.handleSubmit(handlerCreatePet)();
+    }
+  }, [currentStep, form, nextStep, steps]);
+
+  const handlerPrev = useCallback(() => {
+    prevStep();
+  }, [prevStep]);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">
@@ -76,7 +93,7 @@ export default function OnboardingPage() {
         currentStep={currentStep}
         goTo={goTo}
         nextStep={handlerNext}
-        prevStep={prevStep}
+        prevStep={handlerPrev}
       >
         <FormProvider {...form}>
           <div className="w-full h-[90%]">
