@@ -8,7 +8,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Select, SelectTrigger } from "@/components/ui/select";
+import MultipleSelector, { Option } from "@/components/ui/multi-select";
+
+const OPTIONS: Option[] = [
+  { label: "Nextjs", value: "nextjs" },
+  { label: "React", value: "react" },
+  { label: "Remix", value: "remix" },
+  { label: "Vite", value: "vite" },
+  { label: "Nuxt", value: "nuxt" },
+  { label: "Vue", value: "vue" },
+  { label: "Svelte", value: "svelte" },
+  { label: "Angular", value: "angular" },
+  { label: "Ember", value: "ember", disable: true },
+  { label: "Gatsby", value: "gatsby", disable: true },
+  { label: "Astro", value: "astro" },
+];
 
 export default function Step2() {
   const form = useFormContext<OnboardingFormValues>();
@@ -34,7 +48,17 @@ export default function Step2() {
                   Traits:
                 </FormLabel>
                 <FormControl>
-                  <Input className="px-2 py-1" placeholder="" {...field} />
+                  <MultipleSelector
+                    {...field}
+                    defaultOptions={OPTIONS}
+                    hidePlaceholderWhenSelected
+                    placeholder="Select frameworks you like..."
+                    emptyIndicator={
+                      <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                        no results found.
+                      </p>
+                    }
+                  />
                 </FormControl>
 
                 <FormMessage className="text-xs" />

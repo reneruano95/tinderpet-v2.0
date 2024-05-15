@@ -1,10 +1,24 @@
-import { Check } from "lucide-react";
+import { Check, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { StepperProps } from "@/lib/types";
-
+import { useCallback, useEffect, useMemo } from "react";
+import { Step } from "@/lib/hooks/useMultiStepForm";
 
 export default function Stepper({ steps, currentStep, goTo }: StepperProps) {
+  const renderIcon = useCallback(
+    (step: Step, index: number) => {
+      if (step.hasError) {
+        return <X className="size-4" />;
+      }
+      if (!step.hasError && step.isComplete) {
+        return <Check className="size-4" />;
+      }
+      return index + 1;
+    },
+    [currentStep, steps]
+  );
+
   return (
     <div className="absolute -top-20 left-0 w-full md:w-[20%] md:relative md:top-0 md:left-0">
       <ul className="relative flex md:flex-col flex-row gap-2 h-full">
@@ -12,7 +26,6 @@ export default function Stepper({ steps, currentStep, goTo }: StepperProps) {
         {steps.map((step, index) => {
           const isActive = index + 1 === currentStep;
           const isLastStep = index + 1 === steps.length;
-
           const divider = () => {
             if (!isLastStep) {
               return (
@@ -20,7 +33,8 @@ export default function Stepper({ steps, currentStep, goTo }: StepperProps) {
                   className={cn(
                     "md:mt-2 md:ms-0 md:w-px md:h-full mt-0 ms-2 w-full h-px flex-1 bg-gray-200 group-last:hidden dark:bg-neutral-700",
                     isActive && "bg-gray-200",
-                    currentStep > index + 1 && "bg-green-500"
+                    step.isComplete && "bg-green-500",
+                    step.hasError && "bg-red-500"
                   )}
                 ></div>
               );
@@ -42,17 +56,14 @@ export default function Stepper({ steps, currentStep, goTo }: StepperProps) {
                   className={cn(
                     "size-8 flex justify-center items-center flex-shrink-0 bg-gray-100 font-medium text-gray-800 rounded-full dark:bg-neutral-700 dark:text-white",
                     isActive &&
-                    "bg-gray-100 text-gray-800 border-2 border-gray-800",
+                      "bg-gray-100 text-gray-800 border-2 border-gray-800",
                     currentStep < index + 1 && "bg-gray-100 text-gray-800",
-                    currentStep > index + 1 && "bg-green-500 text-white",
-                    "hover:cursor-pointer"
+                    step.isComplete && "bg-green-500 text-white",
+                    "hover:cursor-pointer",
+                    step.hasError && "bg-red-500 text-white"
                   )}
                 >
-                  {index + 1 >= currentStep ? (
-                    index + 1
-                  ) : (
-                    <Check className="w-4 h-4" />
-                  )}
+                  {renderIcon(step, index)}
                 </span>
                 {divider()}
               </div>
@@ -71,5 +82,5 @@ export default function Stepper({ steps, currentStep, goTo }: StepperProps) {
         Step {currentStep}: {steps[currentStep - 1].description}
       </div>
     </div>
-  )
-};
+  );
+}

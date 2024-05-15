@@ -1,7 +1,10 @@
+import { Option } from "@/components/ui/multi-select";
 import { useFormContext } from "react-hook-form";
 
 export default function Step3() {
   const form = useFormContext();
+
+  const allData = form.watch();
   return (
     <div className="w-full ">
       <div className="space-y-2 text-left">
@@ -14,7 +17,16 @@ export default function Step3() {
       </div>
 
       <pre className="w-full text-sm bg-gray-100 pt-4 rounded-lg dark:bg-neutral-800">
-        {JSON.stringify(form.watch(), null, 2)}
+        {JSON.stringify(
+          [allData].map((data) => {
+            if (data.traits) {
+              data.traits = data.traits.map((t: Option) => t.label);
+            }
+            return data;
+          }),
+          null,
+          2
+        )}
       </pre>
     </div>
   );

@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+const optionTraitSchema = z.object({
+  label: z.string(),
+  value: z.string(),
+  disable: z.boolean().optional(),
+});
+
 export const onboardingSchema = z.object({
   name: z.string().min(1, "Name is required."),
   age: z.string().min(1, "Age is required."),
@@ -12,6 +18,6 @@ export const onboardingSchema = z.object({
     .refine((val) => val === "male" || val === "female", {
       message: "Select a gender",
     }),
-  traits: z.string().array().min(5),
+  traits: z.array(optionTraitSchema).min(1),
   interests: z.array(z.string().min(1, "Please select at least one interest.")),
 });

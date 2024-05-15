@@ -12,23 +12,27 @@ import Step1 from "@/components/auth/onboarding/step-1";
 import Step2 from "@/components/auth/onboarding/step-2";
 import Step3 from "@/components/auth/onboarding/step-3";
 
-
 const stepsTest = [
   {
     title: "Step 1",
     description: "Pet Details",
     fields: ["name", "specie", "breed", "age", "gender"],
+    hasError: false,
+    isComplete: false,
   },
   {
     title: "Step 2 ",
     description: "Traits & Interests",
     fields: ["traits", "interests"],
+    hasError: false,
+    isComplete: false,
   },
   { title: "Step 3", description: "Review" },
 ];
 
 export default function OnboardingPage() {
-  const { steps, currentStep, nextStep, prevStep, goTo } = useMultiStepForm(stepsTest);
+  const { steps, currentStep, nextStep, prevStep, goTo } =
+    useMultiStepForm(stepsTest);
   const form = useForm<OnboardingFormValues>({
     defaultValues: {
       name: "",
@@ -37,28 +41,33 @@ export default function OnboardingPage() {
       breed: "",
       gender: "",
       interests: [],
-      traits: []
+      traits: [],
     },
     resolver: zodResolver(onboardingSchema),
   });
 
   type FieldName = keyof OnboardingFormValues;
 
-
   const handlerNext = async () => {
     const fields = steps[currentStep - 1].fields;
-    const valid = await form.trigger(fields as FieldName[], { shouldFocus: true });
+    const valid = await form.trigger(fields as FieldName[], {
+      shouldFocus: true,
+    });
 
     if (valid) {
+      steps[currentStep - 1].hasError = false;
+      steps[currentStep - 1].isComplete = true;
       nextStep();
     }
 
     if (!valid) {
-      console.log("invalid");
-      console.log(currentStep)
+      steps[currentStep - 1].hasError = true;
+      steps[currentStep - 1].isComplete = false;
+      console.log("current step:", currentStep);
+      console.log("fields to validate:", steps[currentStep - 1].fields);
       return;
     }
-  }
+  };
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">
