@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const optionTraitSchema = z.object({
+const optionSchema = z.object({
   label: z.string(),
   value: z.string(),
   disable: z.boolean().optional(),
@@ -18,6 +18,12 @@ export const onboardingSchema = z.object({
     .refine((val) => val === "male" || val === "female", {
       message: "Select a gender",
     }),
-  traits: z.array(optionTraitSchema).min(1),
-  interests: z.array(z.string().min(1, "Please select at least one interest.")),
+  traits: z
+    .array(optionSchema)
+    .min(3, "Please select at least 3 traits.")
+    .max(5, "No more than 5 traits"),
+  interests: z
+    .array(optionSchema)
+    .min(3, "Please select at least 3 interests.")
+    .max(5, "No more than 5 interests"),
 });

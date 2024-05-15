@@ -20,7 +20,10 @@ export default function Step3() {
         {JSON.stringify(
           [allData].map((data) => {
             if (data.traits) {
-              data.traits = data.traits.map((t: Option) => t.label);
+              data.traits = data.traits.map((item: Option) => item.label);
+            }
+            if (data.interests) {
+              data.interests = data.interests.map((item: Option) => item.label);
             }
             return data;
           }),
