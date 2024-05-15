@@ -15,7 +15,6 @@ export function FormFrame({
   goTo,
   nextStep,
   prevStep,
-
   children,
 }: FormFrameProps) {
   return (

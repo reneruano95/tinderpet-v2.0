@@ -1,6 +1,5 @@
 "use client";
 
-import { useCallback, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -61,6 +60,7 @@ export default function OnboardingPage() {
     }
 
     if (!valid) {
+      if (currentStep === 3) return;
       steps[currentStep - 1].hasError = true;
       steps[currentStep - 1].isComplete = false;
       console.log("current step:", currentStep);
