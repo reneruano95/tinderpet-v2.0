@@ -2,6 +2,7 @@ import { useFormContext } from "react-hook-form";
 import { OnboardingFormValues } from "@/lib/types";
 import {
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -10,20 +11,8 @@ import {
 import { Input } from "@/components/ui/input";
 import MultipleSelector, { Option } from "@/components/ui/multi-select";
 import { Textarea } from "@/components/ui/textarea";
-
-const OPTIONS: Option[] = [
-  { label: "Nextjs", value: "nextjs" },
-  { label: "React", value: "react" },
-  { label: "Remix", value: "remix" },
-  { label: "Vite", value: "vite" },
-  { label: "Nuxt", value: "nuxt" },
-  { label: "Vue", value: "vue" },
-  { label: "Svelte", value: "svelte" },
-  { label: "Angular", value: "angular" },
-  { label: "Ember", value: "ember", disable: true },
-  { label: "Gatsby", value: "gatsby", disable: true },
-  { label: "Astro", value: "astro" },
-];
+import { FileEdit } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const traits: Option[] = [
   { label: "Friendly", value: "friendly" },
@@ -76,6 +65,7 @@ export default function Step2() {
                 <FormControl>
                   <MultipleSelector
                     {...field}
+                    badgeClassName="text-xs"
                     defaultOptions={traits}
                     hidePlaceholderWhenSelected
                     placeholder="Select traits (Up to 5)"
@@ -118,15 +108,44 @@ export default function Step2() {
               </FormItem>
             )}
           />
-          <div className="col-sapn-4">
-            <Textarea />
+          <div className="col-span-4">
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem className="space-y-1 sm:mt-2 w-full">
+                  <FormLabel>Description:</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      className="w-full resize-none px-2 py-1"
+                      placeholder="Tell us more about your pet"
+                      maxLength={50}
+                      {...field}
+                    />
+                  </FormControl>
+                  <div className="flex items-center justify-between">
+                    <FormMessage className="text-xs" />
+                    <FormDescription
+                      className={cn(
+                        "text-xs",
+                        field.value?.length > 50
+                          ? "text-destructive"
+                          : "text-gray-500 dark:text-gray-400"
+                      )}
+                    >
+                      {field.value?.length || 0} / 50
+                    </FormDescription>
+                  </div>
+                </FormItem>
+              )}
+            />
           </div>
-          <div className="col-span-4 grid grid-cols-4 gap-2 mt-2">
+          {/* <div className="col-span-4 grid grid-cols-4 gap-2 mt-2">
             <div className="h-16 sm:h-20 w-full aspect-ratio: 16 / 9 col-span-1 border-2 rounded-lg border-black dark:border-white"></div>
             <div className="h-16 sm:h-20 w-full col-span-1  border-2 rounded-lg border-black dark:border-white"></div>
             <div className="h-16 sm:h-20 w-full col-span-1 border-2 rounded-lg border-black dark:border-white"></div>
             <div className="h-16 sm:h-20 w-full col-span-1 border-2 rounded-lg border-black dark:border-white"></div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

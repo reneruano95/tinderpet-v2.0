@@ -26,4 +26,10 @@ export const onboardingSchema = z.object({
     .array(optionSchema)
     .min(3, "Please select at least 3 interests.")
     .max(5, "No more than 5 interests"),
+  description: z
+    .string()
+    .min(10, {
+      message: "Description must be at least 10 characters.",
+    })
+    .max(50, "No more than 50 characters"),
 });

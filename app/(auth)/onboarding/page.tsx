@@ -23,7 +23,7 @@ const stepsTest = [
   {
     title: "Step 2 ",
     description: "Traits & Interests",
-    fields: ["traits", "interests"],
+    fields: ["traits", "interests", "description"],
     hasError: false,
     isComplete: false,
   },

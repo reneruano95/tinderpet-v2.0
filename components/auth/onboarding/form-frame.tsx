@@ -18,7 +18,7 @@ export function FormFrame({
   children,
 }: FormFrameProps) {
   return (
-    <div className="flex flex-col md:flex-row justify-around md:justify-between h-[500px] w-11/12 max-w-2xl md:m-1 md:p-4">
+    <div className="flex flex-col md:flex-row justify-around md:justify-between h-[650px] w-11/12 max-w-2xl md:m-1 md:p-4">
       <Stepper steps={steps} currentStep={currentStep} goTo={goTo} />
       <div className="w-full flex flex-col md:w-[75%] h-[80%] md:h-full bg-white rounded-lg">
         {children}
