@@ -4,13 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { FormFrame } from "@/components/auth/onboarding/form-frame";
-import { useMultiStepForm } from "@/lib/hooks/useMultiStepForm";
+import { Step, useMultiStepForm } from "@/lib/hooks/useMultiStepForm";
 import { onboardingSchema } from "@/lib/schemas/onboarding";
 import { OnboardingFormValues } from "@/lib/types";
 import Step1 from "@/components/auth/onboarding/step-1";
 import Step2 from "@/components/auth/onboarding/step-2";
 import Step3 from "@/components/auth/onboarding/step-3";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 const stepsTest = [
   {
@@ -56,6 +56,8 @@ export default function OnboardingPage() {
 
   type FieldName = keyof OnboardingFormValues;
 
+  const [stepsWithErrors, setStepsWithError] = useState<object>({});
+
   const handlerNext = useCallback(async () => {
     const fields = steps[currentStep - 1].fields;
     const valid = await form.trigger(fields as FieldName[], {
@@ -73,7 +75,7 @@ export default function OnboardingPage() {
       steps[currentStep - 1].hasError = true;
       steps[currentStep - 1].isComplete = false;
       console.log("current step:", currentStep);
-      console.log("fields to validate:", steps[currentStep - 1].fields);
+      console.log("fields to validate:", fields);
       return;
     }
 

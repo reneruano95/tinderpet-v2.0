@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import MultipleSelector, { Option } from "@/components/ui/multi-select";
+import { Textarea } from "@/components/ui/textarea";
 
 const OPTIONS: Option[] = [
   { label: "Nextjs", value: "nextjs" },
@@ -68,7 +69,7 @@ export default function Step2() {
             control={form.control}
             name="traits"
             render={({ field }) => (
-              <FormItem className="col-span-2 space-y-1 mt-2">
+              <FormItem className="col-span-4 sm:col-span-2 space-y-1 sm:mt-2">
                 <FormLabel className="font-semibold text-base">
                   Traits:
                 </FormLabel>
@@ -79,7 +80,7 @@ export default function Step2() {
                     hidePlaceholderWhenSelected
                     placeholder="Select traits (Up to 5)"
                     emptyIndicator={
-                      <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                      <p className="text-center text-sm leading-10 text-gray-600 dark:text-gray-400">
                         no results found.
                       </p>
                     }
@@ -95,9 +96,9 @@ export default function Step2() {
             control={form.control}
             name="interests"
             render={({ field }) => (
-              <FormItem className="col-span-2 space-y-1 mt-2">
+              <FormItem className="col-span-4 sm:col-span-2 space-y-1 sm:mt-2">
                 <FormLabel className="font-semibold text-base">
-                  Breed:
+                  Interests:
                 </FormLabel>
                 <FormControl>
                   <MultipleSelector
@@ -106,7 +107,7 @@ export default function Step2() {
                     hidePlaceholderWhenSelected
                     placeholder="Select interests (Up to 5)"
                     emptyIndicator={
-                      <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                      <p className="text-center text-sm leading-10 text-gray-600 dark:text-gray-400">
                         no results found.
                       </p>
                     }
@@ -117,6 +118,15 @@ export default function Step2() {
               </FormItem>
             )}
           />
+          <div className="col-sapn-4">
+            <Textarea />
+          </div>
+          <div className="col-span-4 grid grid-cols-4 gap-2 mt-2">
+            <div className="h-16 sm:h-20 w-full aspect-ratio: 16 / 9 col-span-1 border-2 rounded-lg border-black dark:border-white"></div>
+            <div className="h-16 sm:h-20 w-full col-span-1  border-2 rounded-lg border-black dark:border-white"></div>
+            <div className="h-16 sm:h-20 w-full col-span-1 border-2 rounded-lg border-black dark:border-white"></div>
+            <div className="h-16 sm:h-20 w-full col-span-1 border-2 rounded-lg border-black dark:border-white"></div>
+          </div>
         </div>
       </div>
     </div>
