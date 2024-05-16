@@ -28,8 +28,5 @@ export const onboardingSchema = z.object({
     .max(5, "No more than 5 interests"),
   description: z
     .string()
-    .min(10, {
-      message: "Description must be at least 10 characters.",
-    })
-    .max(50, "No more than 50 characters"),
+    .min(10, "Description must be at least 10 characters."),
 });

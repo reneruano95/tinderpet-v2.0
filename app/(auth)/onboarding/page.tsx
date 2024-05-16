@@ -43,6 +43,7 @@ export default function OnboardingPage() {
       gender: "",
       interests: [],
       traits: [],
+      description: "",
     },
     resolver: zodResolver(onboardingSchema),
   });
@@ -56,12 +57,18 @@ export default function OnboardingPage() {
 
   type FieldName = keyof OnboardingFormValues;
 
-  const [stepsWithErrors, setStepsWithError] = useState<object>({});
-
   const handlerNext = useCallback(async () => {
     const fields = steps[currentStep - 1].fields;
     const valid = await form.trigger(fields as FieldName[], {
       shouldFocus: true,
+    });
+
+    const fieldsToValidate = fields?.filter((field) => {
+      if (!form.formState.errors) return false;
+      for (const error in form.formState.errors) {
+        if (error === field) return true;
+      }
+      return false;
     });
 
     if (valid) {
@@ -75,14 +82,15 @@ export default function OnboardingPage() {
       steps[currentStep - 1].hasError = true;
       steps[currentStep - 1].isComplete = false;
       console.log("current step:", currentStep);
-      console.log("fields to validate:", fields);
+
+      console.log("fields to validate:", fieldsToValidate);
       return;
     }
 
     if (currentStep === 3) {
       return await form.handleSubmit(handlerCreatePet)();
     }
-  }, [currentStep, form, nextStep, steps]);
+  }, [form, currentStep, nextStep, steps]);
 
   const handlerPrev = useCallback(() => {
     prevStep();
