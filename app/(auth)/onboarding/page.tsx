@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -10,7 +11,7 @@ import { OnboardingFormValues } from "@/lib/types";
 import Step1 from "@/components/auth/onboarding/step-1";
 import Step2 from "@/components/auth/onboarding/step-2";
 import Step3 from "@/components/auth/onboarding/step-3";
-import { useCallback, useState } from "react";
+import Step4 from "@/components/auth/onboarding/step-4";
 
 const stepsTest = [
   {
@@ -27,7 +28,14 @@ const stepsTest = [
     hasError: false,
     isComplete: false,
   },
-  { title: "Step 3", description: "Review" },
+  {
+    title: "Step 3",
+    description: "Photos",
+    fields: [],
+    hasError: false,
+    isComplete: false,
+  },
+  { title: "Step 4", description: "Review" },
 ];
 
 export default function OnboardingPage() {
@@ -87,7 +95,8 @@ export default function OnboardingPage() {
       return;
     }
 
-    if (currentStep === 3) {
+    if (currentStep === steps.length) {
+      console.log("creating pet...");
       return await form.handleSubmit(handlerCreatePet)();
     }
   }, [form, currentStep, nextStep, steps]);
@@ -110,6 +119,7 @@ export default function OnboardingPage() {
             {currentStep === 1 && <Step1 />}
             {currentStep === 2 && <Step2 />}
             {currentStep === 3 && <Step3 />}
+            {currentStep === 4 && <Step4 />}
           </div>
         </FormProvider>
       </FormFrame>

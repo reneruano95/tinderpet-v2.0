@@ -8,10 +8,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import MultipleSelector, { Option } from "@/components/ui/multi-select";
 import { Textarea } from "@/components/ui/textarea";
-import { FileEdit } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const traits: Option[] = [
@@ -48,7 +46,7 @@ export default function Step2() {
           Traits & Interests
         </h1>
         <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base">
-          Add your pet&apos;s details to find the perfect match.
+          Add more details to find the perfect match.
         </p>
       </div>
 
@@ -140,12 +138,6 @@ export default function Step2() {
               )}
             />
           </div>
-          {/* <div className="col-span-4 grid grid-cols-4 gap-2 mt-2">
-            <div className="h-16 sm:h-20 w-full aspect-ratio: 16 / 9 col-span-1 border-2 rounded-lg border-black dark:border-white"></div>
-            <div className="h-16 sm:h-20 w-full col-span-1  border-2 rounded-lg border-black dark:border-white"></div>
-            <div className="h-16 sm:h-20 w-full col-span-1 border-2 rounded-lg border-black dark:border-white"></div>
-            <div className="h-16 sm:h-20 w-full col-span-1 border-2 rounded-lg border-black dark:border-white"></div>
-          </div> */}
         </div>
       </div>
     </div>
