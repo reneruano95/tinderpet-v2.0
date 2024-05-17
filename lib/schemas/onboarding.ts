@@ -29,4 +29,5 @@ export const onboardingSchema = z.object({
   description: z
     .string()
     .min(10, "Description must be at least 10 characters."),
+  photos: z.array(z.string()),
 });

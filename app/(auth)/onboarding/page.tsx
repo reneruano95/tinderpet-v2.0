@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { FormFrame } from "@/components/auth/onboarding/form-frame";
-import { Step, useMultiStepForm } from "@/lib/hooks/useMultiStepForm";
+import { useMultiStepForm } from "@/lib/hooks/useMultiStepForm";
 import { onboardingSchema } from "@/lib/schemas/onboarding";
 import { OnboardingFormValues } from "@/lib/types";
 import Step1 from "@/components/auth/onboarding/step-1";
@@ -86,7 +86,7 @@ export default function OnboardingPage() {
     }
 
     if (!valid) {
-      if (currentStep === 3) return;
+      if (currentStep === steps.length) return;
       steps[currentStep - 1].hasError = true;
       steps[currentStep - 1].isComplete = false;
       console.log("current step:", currentStep);
