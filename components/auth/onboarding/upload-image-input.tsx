@@ -63,7 +63,7 @@ export default function UploadImageInput({ ...props }: any) {
         onChange={onChange}
       />
       {!preview && !isDragActive && (
-        <p>Drag 'n' drop some files here, or click to select files</p>
+        <p>Drag &apos;n&apos; drop some files here, or click to select files</p>
       )}
       {!preview && isDragActive && <p>Drop the files here ...</p>}
 
