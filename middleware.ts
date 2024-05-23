@@ -13,16 +13,6 @@ export async function middleware(request: NextRequest) {
     error,
   } = await supabase.auth.getUser();
 
-  if (user) {
-    const { data: petsByUser, error: errorPet } = await getPetsByUser({
-      userId: user?.id,
-      supabase,
-    });
-    console.log(`pets found with user.id: ${user?.id}`, petsByUser);
-  }
-
-  if (!user) console.log('no user & no pets')
-
   if (
     !user &&
     !request.nextUrl.pathname.startsWith("/sign") &&
@@ -32,8 +22,18 @@ export async function middleware(request: NextRequest) {
   }
 
   if (user) {
-    if (request.nextUrl.pathname.startsWith("/sign") || request.nextUrl.pathname.startsWith("/onboarding")) {
+    const { data: petsByUser, error: errorPet } = await getPetsByUser({
+      userId: user?.id,
+      supabase,
+    });
+    console.log(`pets found with user.id: ${user?.id}`, petsByUser);
+    console.log(petsByUser?.length)
+
+    if (petsByUser?.length !== 0 && (request.nextUrl.pathname.startsWith("/sign") || request.nextUrl.pathname.startsWith("/onboarding"))) {
       return NextResponse.redirect(new URL("/home", request.url));
+    }
+    if (petsByUser?.length === 0 && request.nextUrl.pathname.startsWith("/home")) {
+      return NextResponse.redirect(new URL("/onboarding", request.url));
     }
     return NextResponse.next()
   }

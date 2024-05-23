@@ -32,7 +32,7 @@ export async function getPetsByUser({
   try {
     result = await supabase
       .from("pet_tinderpet")
-      .select("* , profiles(*)")
+      .select("* , profiles!inner(user_id)")
       .eq("profiles.user_id", userId); // get pets by user id;
   } catch (error) {
     throw new Error(`Error getting pets by user ${userId}: ${error}`);
