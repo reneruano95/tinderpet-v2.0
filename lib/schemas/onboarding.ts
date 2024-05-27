@@ -6,11 +6,6 @@ const optionSchema = z.object({
   disable: z.boolean().optional(),
 });
 
-const imageSchema = z.object({
-  name: z.string().min(1, "Name is required."),
-  path: z.string().min(1, "Path is required."),
-});
-
 export const onboardingSchema = z.object({
   name: z.string().min(1, "Name is required."),
   age: z.string().min(1, "Age is required."),
@@ -34,5 +29,5 @@ export const onboardingSchema = z.object({
   description: z
     .string()
     .min(10, "Description must be at least 10 characters."),
-  photos: z.array(imageSchema).min(1, "Please add at least one photo."),
+  photo2: z.string().min(2, "Please add at least one photo."),
 });

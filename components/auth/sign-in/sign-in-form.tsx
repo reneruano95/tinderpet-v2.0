@@ -51,7 +51,7 @@ export default function SignInForm() {
     } else {
       toast.success("Login successful");
       form.reset();
-      router.push('/home')
+      router.push("/home");
     }
   };
 
@@ -83,6 +83,7 @@ export default function SignInForm() {
                         {...field}
                         type="email"
                         className="!mt-0"
+                        autoComplete="email"
                       />
                     </FormControl>
                   </FormItem>
@@ -111,6 +112,7 @@ export default function SignInForm() {
                           {...field}
                           className="rounded-e-none"
                           type={showPassword ? "text" : "password"}
+                          autoComplete="current-password"
                         />
                         <Button
                           asChild

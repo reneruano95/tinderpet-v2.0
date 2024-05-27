@@ -1,81 +1,85 @@
 import { Input } from "@/components/ui/input";
+import { getImageUrl, uploadImage } from "@/lib/actions/images";
 import { cn } from "@/lib/utils";
+import { CloudUpload, ImageUp, PawPrint } from "lucide-react";
 import Image from "next/image";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 
-export default function UploadImageInput({ ...props }: any) {
-  const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
+interface UploadImageInputProps {
+  bucket: string;
+  value: string;
+  onChange: (value: string | undefined) => void;
+}
+export default function UploadImageInput({
+  bucket,
+  value,
+  onChange,
+}: UploadImageInputProps) {
+  const [imageUrl, setImageUrl] = useState("");
 
-  const onDrop = useCallback((acceptedFiles: Array<File>) => {
-    const file = new FileReader();
-
-    file.onload = function () {
-      setPreview(file.result);
-    };
-
-    if (acceptedFiles.length === 0) {
-      console.log("Too many files");
-      toast.error("Too many files");
-      return;
+  useEffect(() => {
+    if (value) {
+      getImageUrl({ bucketName: bucket, filePath: value }).then(setImageUrl);
     }
+  }, [value]);
 
-    if (!acceptedFiles[0].type.startsWith("image")) {
-      console.log("Not an image");
-      toast.error("Not an image");
-      return;
-    }
-
-    file.readAsDataURL(acceptedFiles[0]);
-
-    file.onerror = function () {
-      setPreview(null);
-      console.log("There was an error reading the file");
-    };
-    console.log(acceptedFiles);
-  }, []);
-
-  const { acceptedFiles, getRootProps, getInputProps, isDragActive } =
-    useDropzone({
-      maxFiles: 1,
-      onDrop,
-      accept: { "image/*": [] },
-    });
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setPreview(URL.createObjectURL(e.target.files[0]));
-      console.log(e.target.files);
-    }
-    console.log("onchange");
+  const handleClear = () => {
+    onChange("");
   };
 
-  return (
-    <div
-      {...getRootProps()}
-      className="col-span-2  bg-slate-300 h-32 rounded-lg border-zinc-600 border-dashed border-2 dark:bg-slate-700"
-    >
-      <Input
-        {...getInputProps()}
-        type="file"
-        className={cn(preview ? "hidden" : "", "cursor-pointer")}
-        {...props}
-        onChange={onChange}
-      />
-      {!preview && !isDragActive && (
-        <p>Drag &apos;n&apos; drop some files here, or click to select files</p>
-      )}
-      {!preview && isDragActive && <p>Drop the files here ...</p>}
+  const handleSelectedImage = async ({
+    target: { files },
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    if (!files || files.length === 0) return;
+    const file = files[0];
+    try {
+      const result = await uploadImage({ bucketName: bucket, file });
+      onChange(result);
+    } catch (error) {
+      toast.error("An error occurred while uploading the image", {
+        duration: 5000,
+      });
+    }
+  };
 
-      {preview && (
-        <Image
-          className="w-full h-full object-contain"
-          src={preview as string}
-          alt="Upload preview"
-          width={1000}
-          height={1000}
-        />
-      )}
+  if (value) {
+    return (
+      <div className="w-full h-32 border border-gray-300 rounded-lg">
+        {imageUrl && (
+          <img
+            src={imageUrl}
+            width={100}
+            height={100}
+            alt="photo-2"
+            className="w-full h-full rounded-lg object-contain"
+          />
+        )}
+        <button onClick={handleClear}>Clear</button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full h-32">
+      <input
+        type="file"
+        id="custom-input"
+        accept="image/*"
+        onChange={handleSelectedImage}
+        hidden
+      />
+      <label
+        htmlFor="custom-input"
+        className="flex flex-col justify-center items-center w-full h-full text-slate-500 py-2 px-4 rounded-md border-zinc-600 border-dashed border-2 font-semibold bg-slate-300 hover:bg-slate-400 cursor-pointer"
+      >
+        <CloudUpload className="w-6 h-6 mb-3" />
+        <p className="mb-2 text-xs dark:text-slate-400">Click to upload</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">
+          SVG, PNG, JPG or GIF
+        </p>
+      </label>
     </div>
   );
 }

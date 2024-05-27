@@ -1,6 +1,6 @@
-import { createClient } from "../supabase/server";
+import { createClient } from "@/lib/supabase/client";
 import { getUser } from "./auth";
-const supabase = createClient();
+
 export async function getImageUrl({
   bucketName,
   filePath,
@@ -8,9 +8,14 @@ export async function getImageUrl({
   bucketName: string;
   filePath: string;
 }) {
-  const { data } = await supabase.storage
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await getUser();
+
+  const { data } = supabase.storage
     .from(bucketName)
-    .getPublicUrl(filePath);
+    .getPublicUrl(`${user?.id}/${filePath}`);
 
   return data.publicUrl;
 }
@@ -20,19 +25,24 @@ export async function uploadImage({
   file,
 }: {
   bucketName: string;
-  file: File;
+  file: File | undefined;
 }) {
+  const supabase = createClient();
   if (!file) {
     return;
   }
 
+  const {
+    data: { user },
+  } = await getUser();
+
   const fileExt = file.name.split(".").pop();
-  const fileName = `${Math.random()}.${fileExt}`;
+  const fileName = `${user?.id}${Math.random()}.${fileExt}`;
   const filePath = `${fileName}`;
 
   const { error } = await supabase.storage
     .from(bucketName)
-    .upload(filePath, file);
+    .upload(`${user?.id}/${filePath}`, file);
 
   if (error) {
     throw error;
@@ -47,6 +57,7 @@ export async function deleteImage({
   bucketName: string;
   filePath: string;
 }) {
+  const supabase = createClient();
   const { error } = await supabase.storage.from(bucketName).remove([filePath]);
   if (error) {
     throw error;
@@ -64,6 +75,7 @@ export async function moveImage({
   filePath: string;
   newFilePath: string;
 }) {
+  const supabase = createClient();
   const { error } = await supabase.storage
     .from(bucketName)
     .move(filePath, newFilePath);

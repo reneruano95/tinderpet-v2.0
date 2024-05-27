@@ -13,6 +13,13 @@ export async function middleware(request: NextRequest) {
     error,
   } = await supabase.auth.getUser();
 
+  const { data: petsByUser, error: errorPet } = await getPetsByUser({
+    userId: user?.id,
+    supabase,
+  });
+  console.log(`pets found with ${user?.email}: ${user?.id}`, petsByUser);
+  console.log(petsByUser?.length);
+
   if (
     !user &&
     !request.nextUrl.pathname.startsWith("/sign") &&
@@ -22,20 +29,20 @@ export async function middleware(request: NextRequest) {
   }
 
   if (user) {
-    const { data: petsByUser, error: errorPet } = await getPetsByUser({
-      userId: user?.id,
-      supabase,
-    });
-    console.log(`pets found with user.id: ${user?.id}`, petsByUser);
-    console.log(petsByUser?.length)
-
-    if (petsByUser?.length !== 0 && (request.nextUrl.pathname.startsWith("/sign") || request.nextUrl.pathname.startsWith("/onboarding"))) {
+    if (
+      petsByUser?.length !== 0 &&
+      (request.nextUrl.pathname.startsWith("/sign") ||
+        request.nextUrl.pathname.startsWith("/onboarding"))
+    ) {
       return NextResponse.redirect(new URL("/home", request.url));
     }
-    if (petsByUser?.length === 0 && request.nextUrl.pathname.startsWith("/home")) {
+    if (
+      petsByUser?.length === 0 &&
+      request.nextUrl.pathname.startsWith("/home")
+    ) {
       return NextResponse.redirect(new URL("/onboarding", request.url));
     }
-    return NextResponse.next()
+    return NextResponse.next();
   }
 
   return response;

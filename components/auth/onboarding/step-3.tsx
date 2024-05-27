@@ -26,14 +26,17 @@ export default function Step3() {
 
       <div className="flex-1 flex flex-col justify-center">
         <div className="grid grid-cols-4 gap-2">
-          <UploadImageInput />
+          <div className="col-span-2">
+            {/* <UploadImageInput bucket="temp" value="" onChange={() => {}} /> */}
+          </div>
           <FormField
             control={control}
-            name="photos"
+            name="photo2"
             render={({ field }) => (
               <FormItem className="col-span-2">
                 <FormControl>
                   <UploadImageInput
+                    bucket="temp"
                     value={field.value}
                     onChange={field.onChange}
                   />

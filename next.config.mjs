@@ -4,9 +4,22 @@ const nextConfig = {
   experimental: {
     serverActions: {
       // configure the allowed origins for localhost & github codespace
-      allowedOrigins: ['localhost:3000','glowing-space-invention-gv9g79gx97xh9659-3000.app.github.dev']
-    }
-  }
+      allowedOrigins: [
+        "localhost:3000",
+        "glowing-space-invention-gv9g79gx97xh9659-3000.app.github.dev",
+      ],
+    },
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "entnnmbtgmxtmgjbfysr.supabase.co",
+        port: "",
+        pathname: "/storage/v1/object/public/temp/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

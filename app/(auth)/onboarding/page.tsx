@@ -31,7 +31,7 @@ const stepsTest = [
   {
     title: "Step 3",
     description: "Photos",
-    fields: [],
+    fields: ["photo2"],
     hasError: false,
     isComplete: false,
   },
@@ -52,6 +52,7 @@ export default function OnboardingPage() {
       interests: [],
       traits: [],
       description: "",
+      photo2: "",
     },
     resolver: zodResolver(onboardingSchema),
   });
