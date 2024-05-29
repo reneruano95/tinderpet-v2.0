@@ -1,15 +1,8 @@
 import { useFormContext } from "react-hook-form";
 
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import { OnboardingFormValues } from "@/lib/types";
 
-import { PawPrint } from "lucide-react";
 import UploadImageInput from "./upload-image-input";
 
 export default function Step3() {

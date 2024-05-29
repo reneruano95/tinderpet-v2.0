@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
+import { useQuery } from "@tanstack/react-query";
 
 import { Input } from "@/components/ui/input";
 import {
@@ -17,9 +19,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { OnboardingFormValues } from "@/lib/types";
+import { getSpecies } from "@/lib/actions/pets";
 
 export default function Step1() {
   const form = useFormContext<OnboardingFormValues>();
+
+  const { data, isSuccess, isError, error, isLoading } = useQuery({
+    queryKey: ["species"],
+    queryFn: getSpecies,
+  });
+
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+    }
+  }, [data]);
 
   return (
     <div className="w-full flex flex-col h-full">
