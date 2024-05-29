@@ -24,9 +24,11 @@ import { getSpecies } from "@/lib/actions/pets";
 export default function Step1() {
   const form = useFormContext<OnboardingFormValues>();
 
+  const [species, setSpecies] = useState<string[]>([]);
+
   const { data, isSuccess, isError, error, isLoading } = useQuery({
     queryKey: ["species"],
-    queryFn: getSpecies,
+    queryFn: async () => await getSpecies(),
   });
 
   useEffect(() => {
@@ -34,6 +36,10 @@ export default function Step1() {
       console.log(data);
     }
   }, [data]);
+
+  if (isError) {
+    console.log(error);
+  }
 
   return (
     <div className="w-full flex flex-col h-full">
@@ -118,9 +124,34 @@ export default function Step1() {
                 <FormLabel className="font-semibold text-sm sm:text-base">
                   Specie:
                 </FormLabel>
-                <FormControl>
-                  <Input className="px-2 py-1" placeholder="" {...field} />
-                </FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl className="px-2 py-1">
+                    <SelectTrigger className="text-left">
+                      <SelectValue placeholder="Select specie" />
+                    </SelectTrigger>
+                  </FormControl>
+
+                  <SelectContent>
+                    {isSuccess &&
+                      data?.data?.map((specie) => {
+                        const newValue = specie.species_name
+                          .split("")[0]
+                          .toUpperCase()
+                          .concat(specie.species_name.slice(1));
+                        return (
+                          <SelectItem
+                            key={specie.id}
+                            value={specie.species_name}
+                          >
+                            {newValue}
+                          </SelectItem>
+                        );
+                      })}
+                  </SelectContent>
+                </Select>
 
                 <FormMessage className="text-xs" />
               </FormItem>

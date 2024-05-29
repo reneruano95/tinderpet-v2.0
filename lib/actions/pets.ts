@@ -1,7 +1,7 @@
 "use server";
+
 import { SupabaseClient } from "@supabase/supabase-js";
 import { createClient } from "../supabase/server";
-import { spec } from "node:test/reporters";
 
 // export function createPet() {
 //   return;
@@ -44,5 +44,6 @@ export async function getSpecies() {
   } catch (error) {
     throw error;
   }
+
   return result;
 }
