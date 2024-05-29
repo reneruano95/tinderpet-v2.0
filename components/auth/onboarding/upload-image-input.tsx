@@ -1,15 +1,13 @@
-import { Input } from "@/components/ui/input";
-import { getImageUrl, uploadImage } from "@/lib/actions/images";
-import { cn } from "@/lib/utils";
-import { CloudUpload, ImageUp, PawPrint } from "lucide-react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import { CloudUpload, LoaderCircle, X } from "lucide-react";
 import { toast } from "sonner";
+
+import { deleteImage, getImageUrl, uploadImage } from "@/lib/actions/images";
 
 interface UploadImageInputProps {
   bucket: string;
-  value: string;
+  value: string | undefined;
   onChange: (value: string | undefined) => void;
 }
 export default function UploadImageInput({
@@ -18,14 +16,24 @@ export default function UploadImageInput({
   onChange,
 }: UploadImageInputProps) {
   const [imageUrl, setImageUrl] = useState("");
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     if (value) {
-      getImageUrl({ bucketName: bucket, filePath: value }).then(setImageUrl);
+      startTransition(() =>
+        getImageUrl({ bucketName: bucket, filePath: value }).then(setImageUrl)
+      );
     }
   }, [value]);
 
-  const handleClear = () => {
+  const handleClear = async () => {
+    const result = await deleteImage({
+      bucketName: bucket,
+      filePath: value,
+    });
+    console.log(imageUrl);
+    console.log(result);
+    setImageUrl("");
     onChange("");
   };
 
@@ -44,19 +52,33 @@ export default function UploadImageInput({
     }
   };
 
+  if (isPending) {
+    return (
+      <div className="w-full h-32 flex items-center justify-center">
+        <LoaderCircle className="w-8 h-8 animate-spin text-slate-500" />
+        <p className="sr-only">Uploading...</p>
+      </div>
+    );
+  }
+
   if (value) {
     return (
-      <div className="w-full h-32 border border-gray-300 rounded-lg">
+      <div className="relative w-full h-32">
         {imageUrl && (
-          <img
+          <Image
             src={imageUrl}
             width={100}
             height={100}
             alt="photo-2"
-            className="w-full h-full rounded-lg object-contain"
+            className="w-full h-full rounded-lg object-cover md:object-scale-down"
           />
         )}
-        <button onClick={handleClear}>Clear</button>
+        <button
+          onClick={handleClear}
+          className="absolute top-0 right-0 bg-rose-500 rounded-full text-white p-1 shadow-sm hover:bg-rose-600"
+        >
+          <X className="w-4 h-4" />
+        </button>
       </div>
     );
   }
@@ -75,8 +97,10 @@ export default function UploadImageInput({
         className="flex flex-col justify-center items-center w-full h-full text-slate-500 py-2 px-4 rounded-md border-zinc-600 border-dashed border-2 font-semibold bg-slate-300 hover:bg-slate-400 cursor-pointer"
       >
         <CloudUpload className="w-6 h-6 mb-3" />
-        <p className="mb-2 text-xs dark:text-slate-400">Click to upload</p>
-        <p className="text-xs text-gray-500 dark:text-gray-400">
+        <p className="mb-2 text-xs text-center dark:text-slate-400">
+          Click to upload
+        </p>
+        <p className="text-xs text-center text-gray-500 dark:text-gray-400">
           SVG, PNG, JPG or GIF
         </p>
       </label>

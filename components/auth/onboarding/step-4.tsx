@@ -25,6 +25,7 @@ export default function Step4() {
             if (data.interests) {
               data.interests = data.interests.map((item: Option) => item.label);
             }
+            delete data.photos;
             return data;
           }),
           null,

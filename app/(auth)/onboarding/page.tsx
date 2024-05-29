@@ -31,7 +31,12 @@ const stepsTest = [
   {
     title: "Step 3",
     description: "Photos",
-    fields: ["photo2"],
+    fields: [
+      "photos.photo1",
+      "photos.photo2",
+      "photos.photo3",
+      "photos.photo4",
+    ],
     hasError: false,
     isComplete: false,
   },
@@ -52,7 +57,12 @@ export default function OnboardingPage() {
       interests: [],
       traits: [],
       description: "",
-      photo2: "",
+      photos: {
+        photo1: "",
+        photo2: "",
+        photo3: "",
+        photo4: "",
+      },
     },
     resolver: zodResolver(onboardingSchema),
   });
@@ -75,7 +85,9 @@ export default function OnboardingPage() {
     const fieldsToValidate = fields?.filter((field) => {
       if (!form.formState.errors) return false;
       for (const error in form.formState.errors) {
-        if (error === field) return true;
+        if (error === field) {
+          return true;
+        }
       }
       return false;
     });

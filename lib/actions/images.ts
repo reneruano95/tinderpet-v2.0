@@ -6,7 +6,7 @@ export async function getImageUrl({
   filePath,
 }: {
   bucketName: string;
-  filePath: string;
+  filePath: string | undefined;
 }) {
   const supabase = createClient();
   const {
@@ -55,15 +55,23 @@ export async function deleteImage({
   filePath,
 }: {
   bucketName: string;
-  filePath: string;
+  filePath: string | undefined;
 }) {
   const supabase = createClient();
-  const { error } = await supabase.storage.from(bucketName).remove([filePath]);
+  const {
+    data: { user },
+  } = await getUser();
+
+  const result = await supabase.storage
+    .from(bucketName)
+    .remove([`${user?.id}/${filePath}`]);
+
+  let { error } = result;
   if (error) {
     throw error;
   }
 
-  return filePath;
+  return result;
 }
 
 export async function moveImage({

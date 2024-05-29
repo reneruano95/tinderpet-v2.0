@@ -13,7 +13,10 @@ import { PawPrint } from "lucide-react";
 import UploadImageInput from "./upload-image-input";
 
 export default function Step3() {
-  const { control, formState } = useFormContext<OnboardingFormValues>();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext<OnboardingFormValues>();
 
   return (
     <div className="w-full flex flex-col h-full">
@@ -26,12 +29,9 @@ export default function Step3() {
 
       <div className="flex-1 flex flex-col justify-center">
         <div className="grid grid-cols-4 gap-2">
-          <div className="col-span-2">
-            {/* <UploadImageInput bucket="temp" value="" onChange={() => {}} /> */}
-          </div>
           <FormField
             control={control}
-            name="photo2"
+            name="photos.photo1"
             render={({ field }) => (
               <FormItem className="col-span-2">
                 <FormControl>
@@ -41,18 +41,60 @@ export default function Step3() {
                     onChange={field.onChange}
                   />
                 </FormControl>
-                <FormMessage className="text-xs" />
               </FormItem>
             )}
           />
-          <div className="col-span-2 p-6 bg-slate-300 h-32 rounded-lg border-zinc-600 border-dashed border-2 dark:bg-slate-700 flex items-center justify-center text-slate-600">
-            <PawPrint className="size-full text-slate-600" />
-          </div>
-          <div className="col-span-2 p-6 bg-slate-300 h-32 rounded-lg border-zinc-600 border-dashed border-2 dark:bg-slate-700 flex items-center justify-center text-slate-600">
-            <PawPrint className="size-full text-slate-600" />
-          </div>
+          <FormField
+            control={control}
+            name="photos.photo2"
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <FormControl>
+                  <UploadImageInput
+                    bucket="temp"
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="photos.photo3"
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <FormControl>
+                  <UploadImageInput
+                    bucket="temp"
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="photos.photo4"
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <FormControl>
+                  <UploadImageInput
+                    bucket="temp"
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
         </div>
-        <div className="text-left text-xs"> Add photos </div>
+        {errors.photos && (
+          <p className="text-sm text-center font-medium text-destructive mt-2">
+            {errors.photos?.photo1?.message}
+          </p>
+        )}
       </div>
     </div>
   );
