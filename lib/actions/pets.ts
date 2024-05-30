@@ -47,3 +47,18 @@ export async function getSpecies() {
 
   return result;
 }
+
+export async function getBreeds() {
+  const supabase = createClient();
+
+  let result;
+  try {
+    result = await supabase
+      .from("breed_tinderpet")
+      .select("*, species_tinderpet!inner(*)");
+  } catch (error) {
+    throw error;
+  }
+
+  return result;
+}

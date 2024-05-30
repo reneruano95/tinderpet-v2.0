@@ -19,26 +19,53 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { OnboardingFormValues } from "@/lib/types";
-import { getSpecies } from "@/lib/actions/pets";
+import { getBreeds, getSpecies } from "@/lib/actions/pets";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Check, ChevronsUpDown } from "lucide-react";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
 
 export default function Step1() {
   const form = useFormContext<OnboardingFormValues>();
 
-  const [species, setSpecies] = useState<string[]>([]);
+  const [breeds, setBreeds] = useState([]);
 
-  const { data, isSuccess, isError, error, isLoading } = useQuery({
+  const speciesQuery = useQuery({
     queryKey: ["species"],
     queryFn: async () => await getSpecies(),
   });
 
-  useEffect(() => {
-    if (data) {
-      console.log(data);
-    }
-  }, [data]);
+  const breedsQuery = useQuery({
+    queryKey: ["breeds"],
+    queryFn: async () => await getBreeds(),
+  });
 
-  if (isError) {
-    console.log(error);
+  useEffect(() => {
+    if (speciesQuery.data) {
+      console.log(speciesQuery.data);
+    }
+
+    if (breedsQuery.data) {
+      breedsQuery.data?.data?.map((breed) => {
+        console.log(breed.breed_name);
+      });
+    }
+  }, [speciesQuery.data, breedsQuery.data]);
+
+  if (speciesQuery.isError || breedsQuery.isError) {
+    console.log(speciesQuery.error);
+    console.log(breedsQuery.error);
   }
 
   return (
@@ -135,8 +162,8 @@ export default function Step1() {
                   </FormControl>
 
                   <SelectContent>
-                    {isSuccess &&
-                      data?.data?.map((specie) => {
+                    {speciesQuery.isSuccess &&
+                      speciesQuery.data?.data?.map((specie) => {
                         const newValue = specie.species_name
                           .split("")[0]
                           .toUpperCase()
@@ -162,15 +189,66 @@ export default function Step1() {
             control={form.control}
             name="breed"
             render={({ field }) => (
-              <FormItem className="col-span-2 space-y-1 mt-2">
+              <FormItem className="flex flex-col col-span-2 space-y-1 mt-2">
                 <FormLabel className="font-semibold text-sm sm:text-base">
                   Breed:
                 </FormLabel>
-                <FormControl>
-                  <Input className="px-2 py-1" placeholder="" {...field} />
-                </FormControl>
-
-                <FormMessage className="text-xs" />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        className={cn(
+                          "w-[200px] justify-between",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value
+                          ? breedsQuery.data?.data?.find((breed) =>
+                              breed.breed_name.names.map(
+                                (breedName: string) => breedName === field.value
+                              )
+                            )?.label
+                          : "Select breed"}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[200px] p-0">
+                    <Command>
+                      <CommandInput placeholder="Search breed..." />
+                      <CommandEmpty>No breed found.</CommandEmpty>
+                      <CommandGroup>
+                        {breedsQuery.data?.data?.map((breed) =>
+                          breed.breed_name.names.map((breedName: string) => {
+                            // console.log(breedName);
+                            return (
+                              <CommandItem
+                                value={breedName}
+                                key={breed.id}
+                                onSelect={() => {
+                                  form.setValue("breed", breedName);
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    breedName === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                {breedName}
+                              </CommandItem>
+                            );
+                          })
+                        )}
+                      </CommandGroup>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
               </FormItem>
             )}
           />

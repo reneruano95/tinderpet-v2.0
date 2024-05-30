@@ -46,6 +46,7 @@ export default function UploadImageInput({
       const result = await uploadImage({ bucketName: bucket, file });
       onChange(result);
     } catch (error) {
+      console.log(error);
       toast.error("An error occurred while uploading the image", {
         duration: 5000,
       });
