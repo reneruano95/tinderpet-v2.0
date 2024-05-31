@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
 
@@ -19,49 +19,65 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { OnboardingFormValues } from "@/lib/types";
-import { getBreeds, getSpecies } from "@/lib/actions/pets";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Check, ChevronsUpDown } from "lucide-react";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
+import { getBreeds, getBreedsBySpecies, getSpecies } from "@/lib/actions/pets";
+import { AutoComplete } from "@/components/ui/autocomplete";
+
+const FRAMEWORKS = [
+  "Angular",
+  "React",
+  "Vue",
+  "Svelte",
+  "Next.js",
+  "Nuxt.js",
+  "Gatsby",
+];
 
 export default function Step1() {
   const form = useFormContext<OnboardingFormValues>();
-
-  const [breeds, setBreeds] = useState([]);
+  const [selectedBreeds, setSelectedBreeds] = useState<string[] | undefined>(
+    undefined
+  );
 
   const speciesQuery = useQuery({
     queryKey: ["species"],
     queryFn: async () => await getSpecies(),
   });
 
+  const specieValue = form.watch("specie");
+  let id: string | undefined;
+  if (specieValue) {
+    console.log("specieValue", specieValue);
+    id = speciesQuery.data?.data?.find(
+      (species) => species.species_name === specieValue
+    )?.id;
+  }
+
   const breedsQuery = useQuery({
-    queryKey: ["breeds"],
-    queryFn: async () => await getBreeds(),
+    queryKey: ["breedsBySpecies"],
+    queryFn: async () => await getBreedsBySpecies(id),
+    queryHash: id ? `breedsBySpecies-${id}` : undefined,
   });
 
   useEffect(() => {
     if (speciesQuery.data) {
-      console.log(speciesQuery.data);
+      console.log("speciesQuery.data", speciesQuery.data);
+    }
+  }, [speciesQuery.data]);
+
+  useEffect(() => {
+    if (breedsQuery.isSuccess && id) {
+      console.log("breedsQuery.data", breedsQuery.data);
+      const breedsBySpecies = breedsQuery.data?.data?.map((breed) => {
+        return breed.breed_name?.names;
+      });
+      console.log("specieId", id);
+      return setSelectedBreeds(breedsBySpecies);
     }
 
-    if (breedsQuery.data) {
-      breedsQuery.data?.data?.map((breed) => {
-        console.log(breed.breed_name);
-      });
+    if (selectedBreeds) {
+      console.log("selectedBreeds", selectedBreeds);
     }
-  }, [speciesQuery.data, breedsQuery.data]);
+  }, [breedsQuery.data, id]);
 
   if (speciesQuery.isError || breedsQuery.isError) {
     console.log(speciesQuery.error);
@@ -189,66 +205,27 @@ export default function Step1() {
             control={form.control}
             name="breed"
             render={({ field }) => (
-              <FormItem className="flex flex-col col-span-2 space-y-1 mt-2">
+              <FormItem className="col-span-2 space-y-1 mt-2">
                 <FormLabel className="font-semibold text-sm sm:text-base">
                   Breed:
                 </FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        className={cn(
-                          "w-[200px] justify-between",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value
-                          ? breedsQuery.data?.data?.find((breed) =>
-                              breed.breed_name.names.map(
-                                (breedName: string) => breedName === field.value
-                              )
-                            )?.label
-                          : "Select breed"}
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-0">
-                    <Command>
-                      <CommandInput placeholder="Search breed..." />
-                      <CommandEmpty>No breed found.</CommandEmpty>
-                      <CommandGroup>
-                        {breedsQuery.data?.data?.map((breed) =>
-                          breed.breed_name.names.map((breedName: string) => {
-                            // console.log(breedName);
-                            return (
-                              <CommandItem
-                                value={breedName}
-                                key={breed.id}
-                                onSelect={() => {
-                                  form.setValue("breed", breedName);
-                                }}
-                              >
-                                <Check
-                                  className={cn(
-                                    "mr-2 h-4 w-4",
-                                    breedName === field.value
-                                      ? "opacity-100"
-                                      : "opacity-0"
-                                  )}
-                                />
-                                {breedName}
-                              </CommandItem>
-                            );
-                          })
-                        )}
-                      </CommandGroup>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl className="px-2 py-1">
+                    <AutoComplete
+                      options={selectedBreeds}
+                      emptyMessage="No results."
+                      placeholder="Select breed"
+                      isLoading={breedsQuery.isLoading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                    />
+                  </FormControl>
+                </Select>
+
+                <FormMessage className="text-xs" />
               </FormItem>
             )}
           />
