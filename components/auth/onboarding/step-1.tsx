@@ -150,7 +150,7 @@ export default function Step1() {
             control={form.control}
             name="age"
             render={({ field }) => (
-              <FormItem className="flex flex-col col-span-3 sm:col-span-2 space-y-1">
+              <FormItem className="flex flex-col col-span-4 sm:col-span-2 space-y-1">
                 <FormLabel className="font-semibold text-sm sm:text-base">
                   Date of birth
                 </FormLabel>
@@ -160,7 +160,7 @@ export default function Step1() {
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
+                          "w-full pl-3 text-left font-normal",
                           !field.value && "text-muted-foreground"
                         )}
                       >
@@ -173,7 +173,7 @@ export default function Step1() {
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className="w-auto p-0" align="center">
                     <Calendar
                       mode="single"
                       selected={field.value}
@@ -188,7 +188,7 @@ export default function Step1() {
                 <FormDescription className="text-xs">
                   Date of birth is used to calculate the age of your pet.
                 </FormDescription>
-                <FormMessage />
+                <FormMessage className="text-xs" />
               </FormItem>
             )}
           />
