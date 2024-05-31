@@ -1,4 +1,5 @@
 import { Option } from "@/components/ui/multi-select";
+import { calculateAge } from "@/lib/utils";
 import { useFormContext } from "react-hook-form";
 
 export default function Step4() {
@@ -19,6 +20,10 @@ export default function Step4() {
       <pre className="w-full text-xs bg-gray-100 mt-2 rounded-lg dark:bg-neutral-800">
         {JSON.stringify(
           [allData].map((data) => {
+            if (data.age) {
+              const calculatedAge = calculateAge(data.age);
+              data.age = `${calculatedAge.months} months, ${calculatedAge.years} years, ${calculatedAge.days} days`;
+            }
             if (data.traits) {
               data.traits = data.traits.map((item: Option) => item.label);
             }
