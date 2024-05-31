@@ -73,22 +73,3 @@ export async function deleteImage({
 
   return result;
 }
-
-export async function moveImage({
-  bucketName,
-  filePath,
-  newFilePath,
-}: {
-  bucketName: string;
-  filePath: string;
-  newFilePath: string;
-}) {
-  const supabase = createClient();
-  const { error } = await supabase.storage
-    .from(bucketName)
-    .move(filePath, newFilePath);
-  if (error) {
-    throw error;
-  }
-  return newFilePath;
-}

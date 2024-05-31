@@ -27,12 +27,6 @@ export default function UploadImageInput({
   }, [value]);
 
   const handleClear = async () => {
-    const result = await deleteImage({
-      bucketName: bucket,
-      filePath: value,
-    });
-    console.log(imageUrl);
-    console.log(result);
     setImageUrl("");
     onChange("");
   };
