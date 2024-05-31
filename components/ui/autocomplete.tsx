@@ -118,11 +118,13 @@ export const AutoComplete = ({
             ) : null}
             {options?.length !== 0 && !isLoading ? (
               <CommandGroup>
-                {options?.map((option) => {
+                {options?.map((option, index) => {
                   const isSelected = selected === option;
+                  console.log("isSelected", isSelected);
+                  console.log("option", option);
                   return (
                     <CommandItem
-                      key={option}
+                      key={index}
                       value={option}
                       onMouseDown={(event) => {
                         event.preventDefault();
