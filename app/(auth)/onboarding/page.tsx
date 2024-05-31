@@ -50,7 +50,7 @@ export default function OnboardingPage() {
   const form = useForm<OnboardingFormValues>({
     defaultValues: {
       name: "",
-      age: "",
+      age: undefined,
       specie: "",
       breed: "",
       gender: "",

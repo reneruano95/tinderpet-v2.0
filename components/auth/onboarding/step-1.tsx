@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
 
 import { Input } from "@/components/ui/input";
 import {
@@ -21,6 +23,14 @@ import {
 import { OnboardingFormValues } from "@/lib/types";
 import { getBreeds, getBreedsBySpecies, getSpecies } from "@/lib/actions/pets";
 import { AutoComplete } from "@/components/ui/autocomplete";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 
 const FRAMEWORKS = ["Angular", "React", "Vue", "Svelte", "Next.js", "Gatsby"];
 
@@ -140,15 +150,45 @@ export default function Step1() {
             control={form.control}
             name="age"
             render={({ field }) => (
-              <FormItem className="col-span-3 sm:col-span-2 space-y-1">
+              <FormItem className="flex flex-col col-span-3 sm:col-span-2 space-y-1">
                 <FormLabel className="font-semibold text-sm sm:text-base">
-                  Age:
+                  Date of birth
                 </FormLabel>
-                <FormControl>
-                  <Input className="px-2 py-1" placeholder="" {...field} />
-                </FormControl>
-
-                <FormMessage className="text-xs" />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "w-[240px] pl-3 text-left font-normal",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, "PPP")
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      disabled={(date) =>
+                        date > new Date() || date < new Date("1900-01-01")
+                      }
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormDescription className="text-xs">
+                  Date of birth is used to calculate the age of your pet.
+                </FormDescription>
+                <FormMessage />
               </FormItem>
             )}
           />

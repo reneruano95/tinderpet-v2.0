@@ -12,10 +12,27 @@ const imageSchema = z.object({
   photo3: z.string().optional(),
   photo4: z.string().optional(),
 });
+const FormSchema = z
+  .object({
+    dob: z.date({
+      required_error: "A date of birth is required.",
+    }),
+  })
+  .refine((data) => data.dob < new Date(), {
+    message: "Date of birth cannot be in the future.",
+    path: ["dob"],
+  });
 
 export const onboardingSchema = z.object({
   name: z.string().min(1, "Name is required."),
-  age: z.string().min(1, "Age is required."),
+  age: z
+    .date({
+      required_error: "A date of birth is required.",
+    })
+    .refine((data) => data < new Date(), {
+      message: "Date of birth cannot be in the future.",
+      path: ["age"],
+    }),
   specie: z
     .string({
       required_error: "Please select a specie",
