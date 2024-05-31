@@ -1,4 +1,10 @@
-import { useState, useRef, useCallback, type KeyboardEvent } from "react";
+import {
+  useState,
+  useRef,
+  useCallback,
+  type KeyboardEvent,
+  useEffect,
+} from "react";
 import { Command as CommandPrimitive } from "cmdk";
 import { Check } from "lucide-react";
 
@@ -35,6 +41,12 @@ export const AutoComplete = ({
   const [isOpen, setOpen] = useState(false);
   const [selected, setSelected] = useState<string | undefined>(value);
   const [inputValue, setInputValue] = useState<string>(value || "");
+
+  // useEffect(() => {
+  //   if (options) {
+  //     console.log("options", options);
+  //   }
+  // }, [options]);
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
@@ -120,8 +132,8 @@ export const AutoComplete = ({
               <CommandGroup>
                 {options?.map((option, index) => {
                   const isSelected = selected === option;
-                  console.log("isSelected", isSelected);
-                  console.log("option", option);
+                  // console.log("isSelected", isSelected);
+                  // console.log("option", option);
                   return (
                     <CommandItem
                       key={index}

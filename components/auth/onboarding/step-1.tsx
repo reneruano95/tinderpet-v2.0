@@ -22,18 +22,11 @@ import { OnboardingFormValues } from "@/lib/types";
 import { getBreeds, getBreedsBySpecies, getSpecies } from "@/lib/actions/pets";
 import { AutoComplete } from "@/components/ui/autocomplete";
 
-const FRAMEWORKS = [
-  "Angular",
-  "React",
-  "Vue",
-  "Svelte",
-  "Next.js",
-  "Nuxt.js",
-  "Gatsby",
-];
+const FRAMEWORKS = ["Angular", "React", "Vue", "Svelte", "Next.js", "Gatsby"];
 
 export default function Step1() {
   const form = useFormContext<OnboardingFormValues>();
+
   const [selectedBreeds, setSelectedBreeds] = useState<string[] | undefined>(
     undefined
   );
@@ -46,7 +39,7 @@ export default function Step1() {
   const specieValue = form.watch("specie");
   let id: string | undefined;
   if (specieValue) {
-    console.log("specieValue", specieValue);
+    // console.log("specieValue", specieValue);
     id = speciesQuery.data?.data?.find(
       (species) => species.species_name === specieValue
     )?.id;
@@ -58,25 +51,26 @@ export default function Step1() {
     queryHash: id ? `breedsBySpecies-${id}` : undefined,
   });
 
-  useEffect(() => {
-    if (speciesQuery.data) {
-      console.log("speciesQuery.data", speciesQuery.data);
-    }
-  }, [speciesQuery.data]);
+  // useEffect(() => {
+  //   if (speciesQuery.data) {
+  //     console.log("speciesQuery.data", speciesQuery.data);
+  //   }
+  // }, [speciesQuery.data]);
 
   useEffect(() => {
     if (breedsQuery.isSuccess && id) {
-      console.log("breedsQuery.data", breedsQuery.data);
+      // console.log("breedsQuery.data", breedsQuery.data);
       const breedsBySpecies = breedsQuery.data?.data?.map((breed) => {
         return breed.breed_name?.names;
       });
-      console.log("specieId", id);
-      return setSelectedBreeds(breedsBySpecies);
+      // console.log("specieId", id);
+      // console.log("breedsBySpecies", breedsBySpecies?.[0]);
+      return setSelectedBreeds(breedsBySpecies?.[0]);
     }
 
-    if (selectedBreeds) {
-      console.log("selectedBreeds", selectedBreeds);
-    }
+    // if (selectedBreeds) {
+    //   console.log("selectedBreeds", selectedBreeds);
+    // }
   }, [breedsQuery.data, id]);
 
   if (speciesQuery.isError || breedsQuery.isError) {
