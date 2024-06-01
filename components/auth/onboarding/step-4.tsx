@@ -22,7 +22,7 @@ export default function Step4() {
           [allData].map((data) => {
             if (data.age) {
               const calculatedAge = calculateAge(data.age);
-              data.age = `${calculatedAge.months} months, ${calculatedAge.years} years, ${calculatedAge.days} days`;
+              data.age = `${calculatedAge.days} days, ${calculatedAge.months} months, ${calculatedAge.years} years`;
             }
             if (data.traits) {
               data.traits = data.traits.map((item: Option) => item.label);

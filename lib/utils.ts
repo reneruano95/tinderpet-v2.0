@@ -12,7 +12,7 @@ export function isEmpty(obj: { [key: string]: any }) {
   return true;
 }
 
-export function calculateAge(dateOfBirth: string) {
+export function calculateAge(dateOfBirth: string | Date) {
   const today = new Date();
   const birthDate = new Date(dateOfBirth);
   let ageYears = today.getFullYear() - birthDate.getFullYear();

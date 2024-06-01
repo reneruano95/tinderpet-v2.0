@@ -1,6 +1,5 @@
 "use server";
 
-import { SupabaseClient } from "@supabase/supabase-js";
 import { createClient } from "../supabase/server";
 
 // export function createPet() {
@@ -17,11 +16,10 @@ import { createClient } from "../supabase/server";
 
 export async function getPetsByUser({
   userId,
-  supabase,
 }: {
   userId: string | undefined;
-  supabase: SupabaseClient<any, "public", any>;
 }) {
+  const supabase = createClient();
   let result;
   try {
     result = await supabase

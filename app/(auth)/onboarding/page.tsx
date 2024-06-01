@@ -12,6 +12,8 @@ import Step1 from "@/components/auth/onboarding/step-1";
 import Step2 from "@/components/auth/onboarding/step-2";
 import Step3 from "@/components/auth/onboarding/step-3";
 import Step4 from "@/components/auth/onboarding/step-4";
+import { calculateAge } from "@/lib/utils";
+import { Option } from "@/components/ui/multi-select";
 
 const stepsTest = [
   {
@@ -69,7 +71,28 @@ export default function OnboardingPage() {
 
   const handlerCreatePet = useCallback(
     async (data: OnboardingFormValues) => {
-      console.log(data);
+      let newAge;
+      let newTraits;
+      let newInterests;
+      if (data.age) {
+        const calculatedAge = calculateAge(data.age);
+        newAge = `${calculatedAge.days} days, ${calculatedAge.months} months, ${calculatedAge.years} years`;
+      }
+      if (data.traits) {
+        newTraits = data.traits.map((item: Option) => item.label);
+      }
+      if (data.interests) {
+        newInterests = data.interests.map((item: Option) => item.label);
+      }
+
+      const formData = {
+        ...data,
+        age: newAge,
+        traits: newTraits,
+        interests: newInterests,
+      };
+      console.log(formData);
+      // TODO: send data
     },
     [form]
   );
