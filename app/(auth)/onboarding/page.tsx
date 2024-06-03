@@ -99,8 +99,6 @@ export default function OnboardingPage() {
       const { data: result, error } = await createPet(formData);
       console.log("onboarding result:", result);
 
-      // TODO: show success message
-
       if (error) {
         console.log("onboarding error:", error);
       }
