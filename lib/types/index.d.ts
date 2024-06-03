@@ -20,3 +20,20 @@ declare interface StepperProps {
   prevStep?: () => void;
   hasError?: boolean;
 }
+
+declare interface Pet {
+  name: string;
+  specie: string;
+  breed: string;
+  age: string | undefined;
+  description: string;
+  photos: {
+    photo1: string;
+    photo2?: string | undefined;
+    photo3?: string | undefined;
+    photo4?: string | undefined;
+  };
+  gender: string;
+  traits: string[] | undefined;
+  interests: string[] | undefined;
+}

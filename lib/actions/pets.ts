@@ -1,10 +1,39 @@
 "use server";
 
 import { createClient } from "../supabase/server";
+import { Pet } from "../types";
+import { getUserById } from "./users";
 
-// export function createPet() {
-//   return;
-// }
+export async function createPet(data: Pet) {
+  const supabase = createClient();
+  let result;
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+  const userById = await getUserById({ id: user?.id });
+
+  try {
+    result = await supabase
+      .from("pet_tinderpet")
+      .insert({
+        pet_name: data.name,
+        specie_name: data.specie,
+        breed_name: data.breed,
+        age: data.age,
+        description: data.description,
+        gender: data.gender,
+        profile_id: userById?.data?.id,
+        photos: data.photos,
+        traits: data.traits,
+        interests: data.interests,
+      })
+      .select();
+  } catch (error) {
+    throw error;
+  }
+  return result;
+}
 
 // export function updatePet() {
 //   return;

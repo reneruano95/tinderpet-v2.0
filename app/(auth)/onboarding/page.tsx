@@ -14,6 +14,8 @@ import Step3 from "@/components/auth/onboarding/step-3";
 import Step4 from "@/components/auth/onboarding/step-4";
 import { calculateAge } from "@/lib/utils";
 import { Option } from "@/components/ui/multi-select";
+import { createPet } from "@/lib/actions/pets";
+import { useRouter } from "next/navigation";
 
 const stepsTest = [
   {
@@ -46,6 +48,7 @@ const stepsTest = [
 ];
 
 export default function OnboardingPage() {
+  const router = useRouter();
   const { steps, currentStep, nextStep, prevStep, goTo } =
     useMultiStepForm(stepsTest);
 
@@ -91,8 +94,17 @@ export default function OnboardingPage() {
         traits: newTraits,
         interests: newInterests,
       };
-      console.log(formData);
-      // TODO: send data
+      console.log("onboarding form data:", formData);
+      const { data: result, error } = await createPet(formData);
+      console.log("onboarding result:", result);
+
+      // TODO: show success message
+
+      // TODO: clear form
+      form.reset();
+
+      // TODO: redirect
+      router.push("/home");
     },
     [form]
   );
