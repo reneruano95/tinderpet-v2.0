@@ -17,8 +17,6 @@ export default async function HomePage() {
       <h1>Home Page</h1>
       <p>{user?.email}</p>
 
-      <pre>{JSON.stringify(userById, null, 2)}</pre>
-      <LogoutButton label="Logout" variant="destructive" className="mt-4" />
       <FetchAllUsers />
     </div>
   );
