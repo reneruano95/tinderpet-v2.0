@@ -16,6 +16,7 @@ import { calculateAge } from "@/lib/utils";
 import { Option } from "@/components/ui/multi-select";
 import { createPet } from "@/lib/actions/pets";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const stepsTest = [
   {
@@ -100,10 +101,14 @@ export default function OnboardingPage() {
 
       // TODO: show success message
 
-      // TODO: clear form
-      form.reset();
+      if (error) {
+        console.log("onboarding error:", error);
+      }
+      if (result) {
+        toast.success("Pet created successfully");
+      }
 
-      // TODO: redirect
+      form.reset();
       router.push("/home");
     },
     [form]
