@@ -14,7 +14,7 @@ export default async function HomePage() {
   const { data: userById } = await getUserById({ id: user?.id });
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center">
+    <div className="flex flex-1 flex-col items-center justify-center ">
       <h1>Home Page</h1>
       <p>{user?.email}</p>
 

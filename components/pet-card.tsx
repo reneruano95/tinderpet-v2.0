@@ -14,6 +14,7 @@ import {
   ChevronDownIcon,
 } from "lucide-react";
 import { Button } from "./ui/button";
+import Image from "next/image";
 
 export default function PetCard() {
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
@@ -46,7 +47,7 @@ export default function PetCard() {
         <Carousel className="w-full h-full">
           {petPhotos.map((photo, index) => (
             <CarouselItem key={index} className="p-0">
-              <img
+              <Image
                 src={photo}
                 alt={`Pet Photo ${index + 1}`}
                 width={800}
@@ -118,11 +119,11 @@ export default function PetCard() {
         <div className="p-4">
           <h3 className="text-lg font-semibold">About Buddy</h3>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            I'm an energetic pup who loves to play and explore. When I'm not
-            running around the park, you can find me cuddled up on the couch
-            watching movies with my favorite human. I'm looking for an owner who
-            is just as adventurous as I am and who will give me all the love and
-            attention I deserve.
+            I&apos;m an energetic pup who loves to play and explore. When
+            I&apos;m not running around the park, you can find me cuddled up on
+            the couch watching movies with my favorite human. I&apos;m looking
+            for an owner who is just as adventurous as I am and who will give me
+            all the love and attention I deserve.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             <div className="rounded-full bg-gray-200 px-3 py-1 text-sm font-medium text-gray-700 dark:bg-gray-700 dark:text-gray-300">

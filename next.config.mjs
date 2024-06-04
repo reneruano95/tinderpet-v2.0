@@ -17,6 +17,11 @@ const nextConfig = {
         hostname: "entnnmbtgmxtmgjbfysr.supabase.co",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "placehold.jp",
+        port: "",
+      },
     ],
   },
 };

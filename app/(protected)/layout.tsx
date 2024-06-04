@@ -13,8 +13,10 @@ export default async function Layout({
 
   return (
     <>
-      <Navbar user={user} />
-      {children}
+      <div className="flex min-h-screen flex-col">
+        <Navbar user={user} />
+        {children}
+      </div>
     </>
   );
 }
