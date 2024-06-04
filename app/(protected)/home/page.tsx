@@ -1,4 +1,5 @@
 import { FetchAllUsers, LogoutButton } from "@/components/logout-button";
+import PetCard from "@/components/pet-card";
 import { getUser } from "@/lib/actions/auth";
 import { getUserById } from "@/lib/actions/users";
 
@@ -18,6 +19,7 @@ export default async function HomePage() {
       <p>{user?.email}</p>
 
       <FetchAllUsers />
+      <PetCard />
     </div>
   );
 }
