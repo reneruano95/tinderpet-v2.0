@@ -36,7 +36,7 @@ export default function Navbar({ user }: { user: User | null }) {
   };
   return (
     <header className="flex items-center w-full h-16 px-4 md:px-6  bg-white dark:bg-gray-800 shadow">
-      <nav className="flex items-center justify-between max-w-7xl w-full mx-auto gap-4 sm:gap-6">
+      <nav className="flex items-center max-w-7xl w-full mx-auto gap-4 sm:gap-6">
         <Link
           href="#"
           className="flex items-center gap-2 text-sm font-semibold"
@@ -51,7 +51,7 @@ export default function Navbar({ user }: { user: User | null }) {
           />
           <span className="hidden sm:block">TinderPet</span>
         </Link>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-1 justify-center items-center gap-4">
           <Link
             href="#"
             className="flex items-center gap-2 text-sm font-medium hover:underline underline-offset-4 text-gray-500 dark:text-gray-400"
