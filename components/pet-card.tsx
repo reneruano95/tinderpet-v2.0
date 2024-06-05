@@ -86,8 +86,8 @@ export default function PetCard() {
         <div className="p-4">
           <h3 className="text-lg font-semibold">About Buddy</h3>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Buddy is an energetic pup who loves to play and explore. He's always
-            up for an adventure and enjoys cuddling on the couch.
+            Buddy is an energetic pup who loves to play and explore. He&apos;s
+            always up for an adventure and enjoys cuddling on the couch.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             <div className="rounded-full bg-gray-200 px-3 py-1 text-sm font-medium text-gray-700 dark:bg-gray-700 dark:text-gray-300">
