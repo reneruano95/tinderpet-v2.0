@@ -28,8 +28,6 @@ import { signOut } from "@/lib/actions/auth";
 export default function Navbar({ user }: { user: User | null }) {
   const router = useRouter();
   const handleLogout = async () => {
-    // Check if we have a user
-
     if (user) {
       await signOut();
     }
@@ -38,7 +36,7 @@ export default function Navbar({ user }: { user: User | null }) {
   };
   return (
     <header className="flex items-center w-full h-16 px-4 md:px-6  bg-white dark:bg-gray-800 shadow">
-      <nav className="flex items-center justify-between w-full gap-4 sm:gap-6">
+      <nav className="flex items-center justify-between max-w-7xl w-full mx-auto gap-4 sm:gap-6">
         <Link
           href="#"
           className="flex items-center gap-2 text-sm font-semibold"
@@ -99,8 +97,8 @@ export default function Navbar({ user }: { user: User | null }) {
                       alt="@shadcn"
                     />
                     <AvatarFallback>
-                      {user?.user_metadata?.first_name[0]}{" "}
-                      {user?.user_metadata?.last_name[0]}
+                      {user?.user_metadata?.first_name[0].toUpperCase()}
+                      {user?.user_metadata?.last_name[0].toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                 </Button>

@@ -7,6 +7,7 @@ import { Button } from "./ui/button";
 import { getUser, signOut } from "@/lib/actions/auth";
 import { getAllUsers } from "@/lib/actions/users";
 import { useState } from "react";
+import { getAllPets } from "@/lib/actions/pets";
 
 export function LogoutButton({ className, variant, label }: any) {
   const router = useRouter();
@@ -31,17 +32,19 @@ export function LogoutButton({ className, variant, label }: any) {
 }
 
 export function FetchAllUsers() {
-  const [data, setData] = useState<any[]>();
   const handleFnTest = async () => {
     const { data, error } = await getAllUsers();
+    const { data: pets, error: petsError } = await getAllPets();
 
     if (data === null) {
       console.log("no users found");
     }
 
     if (data) {
-      console.log(data);
-      return setData(data);
+      console.log("data", data);
+    }
+    if (pets) {
+      console.log("pets", pets);
     }
   };
 
@@ -50,8 +53,6 @@ export function FetchAllUsers() {
       <Button variant="outline" onClick={handleFnTest}>
         Fetch All Users
       </Button>
-
-      {data?.length !== 0 && <pre>{JSON.stringify(data, null, 2)}</pre>}
     </>
   );
 }

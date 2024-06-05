@@ -16,8 +16,8 @@ export async function middleware(request: NextRequest) {
   const { data: petsByUser, error: errorPet } = await getPetsByUser({
     userId: user?.id,
   });
-  console.log(`pets found with ${user?.email}: ${user?.id}`, petsByUser);
-  console.log(petsByUser?.length);
+  // console.log(`pets found with ${user?.email}: ${user?.id}`, petsByUser);
+  // console.log(petsByUser?.length);
 
   if (
     !user &&

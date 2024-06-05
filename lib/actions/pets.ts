@@ -43,6 +43,18 @@ export async function createPet(data: Pet) {
 //   return;
 // }
 
+export async function getAllPets() {
+  const supabase = createClient();
+  let result;
+  try {
+    result = await supabase.from("pet_tinderpet").select("*");
+  } catch (error) {
+    throw error;
+  }
+
+  return result;
+}
+
 export async function getPetsByUser({
   userId,
 }: {
